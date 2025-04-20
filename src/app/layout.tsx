@@ -6,7 +6,7 @@ const montserrat = Montserrat({ subsets: ['cyrillic'] })
 
 export const metadata: Metadata = {
 	title: 'Gguor',
-	description: 'Next.js College Management System',
+	description: 'Next.js Gguor Management System',
 }
 
 export default function RootLayout({
