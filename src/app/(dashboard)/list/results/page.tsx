@@ -2,9 +2,9 @@ import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
-import { role } from '@/lib/data'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/settings'
+import { auth } from '@clerk/nextjs/server'
 import { Prisma } from '@prisma/client'
 import Image from 'next/image'
 
@@ -20,75 +20,82 @@ type ResultList = {
 	startTime: Date
 }
 
-const columns = [
-	{
-		header: 'Название предмета/дисциплины',
-		accessor: 'name',
-	},
-	{
-		header: 'Студент',
-		accessor: 'student',
-	},
-	{
-		header: 'Оценка',
-		accessor: 'score',
-		className: 'hidden md:table-cell',
-	},
-	{
-		header: 'Учитель/тренер',
-		accessor: 'teacher',
-		className: 'hidden lg:table-cell',
-	},
-	{
-		header: 'Класс',
-		accessor: 'class',
-		className: 'hidden lg:table-cell',
-	},
-	{
-		header: 'Дата',
-		accessor: 'date',
-		className: 'hidden md:table-cell',
-	},
-	{
-		header: 'Действия',
-		accessor: 'action',
-	},
-]
-
-const renderRow = (item: ResultList) => (
-	<tr
-		key={item.id}
-		className='border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#ecf8ff]'
-	>
-		<td className='flex items-center gap-4 p-4'>{item.title}</td>
-		<td>{item.studentName + ' ' + item.studentName}</td>
-		<td className='hidden md:table-cell'>{item.score}</td>
-		<td className='hidden lg:table-cell'>
-			{item.teacherName + ' ' + item.teacherSurname}
-		</td>
-		<td className='hidden lg:table-cell'>{item.className}</td>
-		<td className='hidden md:table-cell'>
-			{new Intl.DateTimeFormat('ru').format(item.startTime)}
-		</td>
-		<td>
-			<div className='flex items-center gap-2'>
-				{role === 'admin' ||
-					(role === 'teacher' && (
-						<>
-							<FormModal table='result' type='update' data={item} />
-							<FormModal table='result' type='delete' id={item.id} />
-						</>
-					))}
-			</div>
-		</td>
-	</tr>
-)
-
 const ResultListPage = async ({
 	searchParams,
 }: {
 	searchParams: { [key: string]: string | undefined }
 }) => {
+	const { userId, sessionClaims } = await auth()
+	const role = (sessionClaims?.metadata as { role?: string })?.role
+	const currentUserId = userId
+
+	const columns = [
+		{
+			header: 'Название предмета/дисциплины',
+			accessor: 'name',
+		},
+		{
+			header: 'Студент',
+			accessor: 'student',
+		},
+		{
+			header: 'Оценка',
+			accessor: 'score',
+			className: 'hidden md:table-cell',
+		},
+		{
+			header: 'Учитель/тренер',
+			accessor: 'teacher',
+			className: 'hidden lg:table-cell',
+		},
+		{
+			header: 'Класс',
+			accessor: 'class',
+			className: 'hidden lg:table-cell',
+		},
+		{
+			header: 'Дата',
+			accessor: 'date',
+			className: 'hidden md:table-cell',
+		},
+		...(role === 'admin' || role === 'teacher' || role === 'coach'
+			? [
+					{
+						header: 'Действия',
+						accessor: 'action',
+					},
+			  ]
+			: []),
+	]
+
+	const renderRow = (item: ResultList) => (
+		<tr
+			key={item.id}
+			className='border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#ecf8ff]'
+		>
+			<td className='flex items-center gap-4 p-4'>{item.title}</td>
+			<td>{item.studentName + ' ' + item.studentName}</td>
+			<td className='hidden md:table-cell'>{item.score}</td>
+			<td className='hidden lg:table-cell'>
+				{item.teacherName + ' ' + item.teacherSurname}
+			</td>
+			<td className='hidden lg:table-cell'>{item.className}</td>
+			<td className='hidden md:table-cell'>
+				{new Intl.DateTimeFormat('ru').format(item.startTime)}
+			</td>
+			<td>
+			{/* <div className="flex items-center gap-2">
+        {(role === "admin" || role === "teacher" || role === 'coach') && (
+          <>
+            <FormContainer table="result" type="update" data={item} />
+            <FormContainer table="result" type="delete" id={item.id} />
+          </>
+        )}
+      </div> */}
+			</td>
+		</tr>
+	)
+
 	const { page, ...queryParams } = searchParams
 
 	const p = page ? parseInt(page) : 1
@@ -116,6 +123,32 @@ const ResultListPage = async ({
 			}
 		}
 	}
+
+	// ROLE CONDITIONS
+
+  switch (role) {
+    case "admin":
+      break;
+    case "teacher":
+      query.OR = [
+        { exam: { lesson: { teacherId: currentUserId! } } },
+        { assignment: { lesson: { teacherId: currentUserId! } } },
+      ];
+      break;
+
+    case "student":
+      query.studentId = currentUserId!;
+      break;
+
+    case "coach":
+      query.OR = [
+        { exam: { lesson: { coachId: currentUserId! } } },
+        { assignment: { lesson: { coachId: currentUserId! } } },
+      ];
+      break;
+    default:
+      break;
+  }
 
 	const [dataRes, count] = await prisma.$transaction([
 		prisma.result.findMany({

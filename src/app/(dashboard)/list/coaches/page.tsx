@@ -2,10 +2,10 @@ import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
-import { role } from '@/lib/data'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/settings'
-import { Class, Coach, Disciplines, Lesson, Prisma } from '@prisma/client'
+import { auth } from '@clerk/nextjs/server'
+import { Coach, Disciplines, Prisma } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -23,86 +23,88 @@ import Link from 'next/link'
 
 type CoachList = Coach & { disciplines: Disciplines[] }
 
-const columns = [
-	{
-		header: 'Информация',
-		accessor: 'info',
-	},
-	{
-		header: 'ID тренера',
-		accessor: 'teacherId',
-		className: 'hidden md:table-cell',
-	},
-	{
-		header: 'Дисциплины',
-		accessor: 'subjects',
-		className: 'hidden md:table-cell',
-	},
-	// {
-	// 	header: 'Классы',
-	// 	accessor: 'classes',
-	// 	className: 'hidden md:table-cell',
-	// },
-	{
-		header: 'Телефон',
-		accessor: 'phone',
-		className: 'hidden md:table-cell',
-	},
-	{
-		header: 'Адрес',
-		accessor: 'address',
-		className: 'hidden lg:table-cell',
-	},
-	{
-		header: 'Действия',
-		accessor: 'action',
-	},
-]
-
-const renderRow = (item: CoachList) => (
-	<tr
-		key={item.id}
-		className='border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#ecf8ff]'
-	>
-		<td className='flex items-center gap-4 p-4'>
-			<Image
-				src={item.img || '/noAvatar.png'}
-				alt=''
-				width={40}
-				height={40}
-				className='md:hidden xl:block w-10 h-10 rounded-full object-cover'
-			/>
-			<div className='flex flex-col'>
-				<h3 className='font-semibold'>{item.name}</h3>
-				<p className='text-xs text-gray-500'>{item?.email}</p>
-			</div>
-		</td>
-		<td className='hidden md:table-cell'>{item.id}</td>
-		<td className='hidden md:table-cell'>
-			{item.disciplines.map(disciplines => disciplines.name).join(', ')}
-		</td>
-		<td className='hidden md:table-cell'>{item.phone}</td>
-		<td className='hidden lg:table-cell'>{item.address}</td>
-		<td>
-			<div className='flex items-center gap-2'>
-				<Link href={`/list/coaches/${item.id}`}>
-					<button className='w-7 h-7 flex items-center justify-center rounded-full bg-[#B3E2FD]'>
-						<Image src='/eye.svg' alt='' width={16} height={16} />
-					</button>
-				</Link>
-				{role === 'admin' && (
-					<FormModal table='coach' type='delete' id={item.id} />
-				)}
-			</div>
-		</td>
-	</tr>
-)
-
 const CoachListPage = async ({
 	searchParams,
 }: {
 	searchParams: { [key: string]: string | undefined }
 }) => {
+	const { sessionClaims } = await auth()
+	const role = (sessionClaims?.metadata as { role?: string })?.role
+
+	const columns = [
+		{
+			header: 'Информация',
+			accessor: 'info',
+		},
+		{
+			header: 'ID тренера',
+			accessor: 'teacherId',
+			className: 'hidden md:table-cell',
+		},
+		{
+			header: 'Дисциплины',
+			accessor: 'subjects',
+			className: 'hidden md:table-cell',
+		},
+		{
+			header: 'Телефон',
+			accessor: 'phone',
+			className: 'hidden md:table-cell',
+		},
+		{
+			header: 'Адрес',
+			accessor: 'address',
+			className: 'hidden lg:table-cell',
+		},
+		...(role === 'admin'
+			? [
+					{
+						header: 'Действия',
+						accessor: 'action',
+					},
+			  ]
+			: []),
+	]
+
+	const renderRow = (item: CoachList) => (
+		<tr
+			key={item.id}
+			className='border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#ecf8ff]'
+		>
+			<td className='flex items-center gap-4 p-4'>
+				<Image
+					src={item.img || '/noAvatar.png'}
+					alt=''
+					width={40}
+					height={40}
+					className='md:hidden xl:block w-10 h-10 rounded-full object-cover'
+				/>
+				<div className='flex flex-col'>
+					<h3 className='font-semibold'>{item.name}</h3>
+					<p className='text-xs text-gray-500'>{item?.email}</p>
+				</div>
+			</td>
+			<td className='hidden md:table-cell'>{item.id}</td>
+			<td className='hidden md:table-cell'>
+				{item.disciplines.map(disciplines => disciplines.name).join(', ')}
+			</td>
+			<td className='hidden md:table-cell'>{item.phone}</td>
+			<td className='hidden lg:table-cell'>{item.address}</td>
+			<td>
+				<div className='flex items-center gap-2'>
+					<Link href={`/list/coaches/${item.id}`}>
+						<button className='w-7 h-7 flex items-center justify-center rounded-full bg-[#B3E2FD]'>
+							<Image src='/eye.svg' alt='' width={16} height={16} />
+						</button>
+					</Link>
+					{role === 'admin' && (
+						<FormModal table='coach' type='delete' id={item.id} />
+					)}
+				</div>
+			</td>
+		</tr>
+	)
+
 	const { page, ...queryParams } = searchParams
 
 	const p = page ? parseInt(page) : 1
