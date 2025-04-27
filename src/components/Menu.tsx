@@ -1,4 +1,4 @@
-import { role } from '@/lib/data'
+import { currentUser } from '@clerk/nextjs/server'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -37,6 +37,12 @@ const menuItems = [
 				visible: ['admin'],
 			},
 			{
+				icon: '/land-plot.svg',
+				label: 'Дисциплины',
+				href: '/list/disciplines',
+				visible: ['admin'],
+			},
+			{
 				icon: '/presentation.svg',
 				label: 'Классы',
 				href: '/list/classes',
@@ -46,7 +52,7 @@ const menuItems = [
 				icon: '/notepad-text.svg',
 				label: 'Уроки',
 				href: '/list/lessons',
-				visible: ['admin', 'teacher'],
+				visible: ['admin', 'teacher', 'coach'],
 			},
 			{
 				icon: '/book-open-check.svg',
@@ -80,7 +86,7 @@ const menuItems = [
 			},
 			{
 				icon: '/bell.svg',
-				label: 'Уведомления',
+				label: 'Объявления',
 				href: '/list/announcements',
 				visible: ['admin', 'teacher', 'student', 'coach'],
 			},
@@ -105,7 +111,11 @@ const menuItems = [
 	},
 ]
 
-const Menu = () => {
+const Menu = async () => {
+
+	const user = await currentUser()
+	const role = user?.publicMetadata.role as string
+
 	return (
 		<div className='mt-4 text-sm'>
 			{menuItems.map(i => (

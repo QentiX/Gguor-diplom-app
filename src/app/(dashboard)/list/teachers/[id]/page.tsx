@@ -146,20 +146,20 @@ const SingleTeacherPage = () => {
 				<div className='bg-white p-4 rounded-md'>
 					<h1 className='text-xl font-semibold'>Тэги</h1>
 					<div className='mt-4 flex gap-4 flex-wrap text-xs font-semibold'>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href='/'>
-							Teacher&apos;s Classes
+						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/classes?supervisorId=${'teacher1'}`}>
+							Классы учителя
 						</Link>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href='/'>
-							Teacher&apos;s Students
+						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/students?teacherId=${'teacher1'}`}>
+							Ученики учителя
 						</Link>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href='/'>
-							Teacher&apos;s Lessons
+						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/lessons?teacherId=${'teacher1'}`}>
+							Уроки учителя
 						</Link>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href='/'>
-							Teacher&apos;s Exams
+						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/exams?teacherId=${'teacher1'}`}>
+							Экзамены учителя
 						</Link>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href='/'>
-							Teacher&apos;s Assignments
+						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/assignments?teacherId=${'teacher1'}`}>
+							Задания от учителя
 						</Link>
 					</div>
 				</div>

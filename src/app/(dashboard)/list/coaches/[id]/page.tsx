@@ -144,20 +144,14 @@ const SingleCoachPage = () => {
 				<div className='bg-white p-4 rounded-md'>
 					<h1 className='text-xl font-semibold'>Тэги</h1>
 					<div className='mt-4 flex gap-4 flex-wrap text-xs font-semibold'>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href='/'>
-							Teacher&apos;s Classes
+						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/students?coachId=${'coach1'}`}>
+							Занятия тренера
+						</Link>
+						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/students?coachId=${'coach1'}`}>
+							Экзамены тренера
 						</Link>
 						<Link className='p-3 rounded-md bg-[#B3E2FD]' href='/'>
-							Teacher&apos;s Students
-						</Link>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href='/'>
-							Teacher&apos;s Lessons
-						</Link>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href='/'>
-							Teacher&apos;s Exams
-						</Link>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href='/'>
-							Teacher&apos;s Assignments
+							Задания тренера
 						</Link>
 					</div>
 				</div>
