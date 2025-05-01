@@ -2,7 +2,6 @@ import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
-import { role } from '@/lib/data'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/settings'
 import { auth } from '@clerk/nextjs/server'
@@ -11,7 +10,6 @@ import Image from 'next/image'
 
 type SubjectList = Subject & { teachers: Teacher[] }
 
-
 const SubjectListPage = async ({
 	searchParams,
 }: {
@@ -19,7 +17,7 @@ const SubjectListPage = async ({
 }) => {
 	const { sessionClaims } = await auth()
 	const role = (sessionClaims?.metadata as { role?: string })?.role
-	
+
 	const columns = [
 		{
 			header: 'Название предмета',
@@ -35,7 +33,7 @@ const SubjectListPage = async ({
 			accessor: 'action',
 		},
 	]
-	
+
 	const renderRow = (item: SubjectList) => (
 		<tr
 			key={item.id}

@@ -9,7 +9,11 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 const localizer = momentLocalizer(moment)
 
-const BigCalendar = () => {
+const BigCalendar = ({
+	data,
+}: {
+	data: { title: string; start: Date; end: Date }[]
+}) => {
 	const [view, setView] = useState<View>(Views.WEEK)
 
 	const handleOnChangeView = (selectedView: View) => {
@@ -19,12 +23,12 @@ const BigCalendar = () => {
 	return (
 		<Calendar
 			localizer={localizer}
-			events={calendarEvents}
+			events={data}
 			startAccessor='start'
 			endAccessor='end'
 			views={['week', 'day']}
 			view={view}
-			style={{ height: '98%' }}
+			style={{ height: '99%' }}
 			onView={handleOnChangeView}
 			min={new Date(2025, 1, 0, 8, 0, 0)}
 			max={new Date(2025, 1, 0, 18, 0, 0)}
