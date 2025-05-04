@@ -1,6 +1,6 @@
 'use server'
 
-import { SubjectSchema } from './formValidationSchemas'
+import { DisciplineSchema, SubjectSchema } from './formValidationSchemas'
 import prisma from './prisma'
 
 type CurrentState = { success: boolean; error: boolean }
@@ -59,6 +59,73 @@ export const deleteSubject = async (
 	const id = data.get('id') as string
 	try {
 		await prisma.subject.delete({
+			where: {
+				id: parseInt(id),
+			},
+		})
+
+		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const createDiscipline = async (
+	currentState: CurrentState,
+	data: DisciplineSchema
+) => {
+	try {
+		await prisma.disciplines.create({
+			data: {
+				name: data.name,
+				coaches: {
+					connect: data.coaches.map(coachId => ({ id: coachId })),
+				},
+			},
+		})
+
+		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const updateDiscipline = async (
+	currentState: CurrentState,
+	data: DisciplineSchema
+) => {
+	try {
+		await prisma.disciplines.update({
+			where: {
+				id: data.id,
+			},
+			data: {
+				name: data.name,
+				coaches: {
+					set: data.coaches.map(coachId => ({ id: coachId })),
+				},
+			},
+		})
+
+		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const deleteDiscipline = async (
+	currentState: CurrentState,
+	data: FormData
+) => {
+	const id = data.get('id') as string
+	try {
+		await prisma.disciplines.delete({
 			where: {
 				id: parseInt(id),
 			},

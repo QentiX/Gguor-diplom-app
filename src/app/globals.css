@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+	margin: 0;
+	padding: 0;
+}
+
+html,body,:root {
+	height: 100%;
+}
+
 .react-calendar {
 	width: 100% !important;
 	border: none !important;

@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import { ruRU } from '@clerk/localizations'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
@@ -21,8 +22,10 @@ export default function RootLayout({
 	return (
 		<ClerkProvider localization={ruRU}>
 			<html lang='ru'>
-				<body className={montserrat.className}>
-					{children} <ToastContainer position="bottom-right" theme="light"/>
+				<body
+					className={cn('w-screen overflow-x-hidden', montserrat.className)}
+				>
+					{children} <ToastContainer position='bottom-right' theme='light' />
 				</body>
 			</html>
 		</ClerkProvider>

@@ -9,13 +9,13 @@ import {
 } from '@/components/ui/select'
 import prisma from '@/lib/prisma'
 
-const ClassSelection = async () => {
+const SubjectSelection = async () => {
 
-	const data = await prisma.class.findMany()
+	const data = await prisma.subject.findMany()
 	return (
 		<Select>
-			<SelectTrigger className='w-[180px]'>
-				<SelectValue placeholder='Выберите класс' />
+			<SelectTrigger className='w-[200px]'>
+				<SelectValue placeholder='Выберите предмет' />
 			</SelectTrigger>
 			<SelectContent>
 				{data.map((item, index) => (
@@ -26,4 +26,4 @@ const ClassSelection = async () => {
 	)
 }
 
-export default ClassSelection
+export default SubjectSelection
