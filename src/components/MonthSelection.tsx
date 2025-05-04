@@ -8,8 +8,10 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover'
 import { addMonths } from 'date-fns'
+import { ru } from "date-fns/locale"
 import { CalendarIcon } from 'lucide-react'
 import moment from 'moment'
+import 'moment/locale/ru'
 import { useState } from 'react'
 
 const MonthSelection = ({ selectedMonth }: { selectedMonth: any }) => {
@@ -20,25 +22,17 @@ const MonthSelection = ({ selectedMonth }: { selectedMonth: any }) => {
 
 	return (
 		<div className=''>
-			{/* <Popover>
-				<PopoverTrigger>
-					<div className='flex items-center gap-2 border-1 border-solid rounded-lg py-2 px-4 text-xs font-semibold'>
-						Месяц
-						<CalendarDays className='h-5 w-5' strokeWidth={1.6} />
-					</div>
-				</PopoverTrigger>
-				<PopoverContent>Place content for the popover here.</PopoverContent>
-			</Popover> */}
 			<Popover>
 				<PopoverTrigger asChild>
 					<Button variant={'outline'} className='text-sm font-normal'>
 						<CalendarIcon className='h-5 w-5' strokeWidth={1.7} />
-						{moment(month).format('MMM yyyy')}
+						{moment(month).locale('ru').format('MMM yyyy')}
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent className='w-auto p-0'>
 					<Calendar
 						mode='single'
+						locale={ru}
 						month={month}
 						onMonthChange={value => {
 							selectedMonth(value)
