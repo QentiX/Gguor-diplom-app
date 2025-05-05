@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteDiscipline, deleteSubject } from '@/lib/actions'
+import { deleteClass, deleteDiscipline, deleteSubject } from '@/lib/actions'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -12,7 +12,7 @@ import { FormContainerProps } from './FormContainer'
 const deleteActionMap = {
 	subject: deleteSubject,
 	discipline: deleteDiscipline,
-	class: deleteSubject,
+	class: deleteClass,
 	teacher: deleteSubject,
 	student: deleteSubject,
 	coach: deleteSubject,
@@ -45,6 +45,9 @@ const SubjectForm = dynamic(() => import('./forms/SubjectForm'), {
 const DisciplineForm = dynamic(() => import('./forms/DisciplineForm'), {
 	loading: () => <h1>Загрузка...</h1>,
 })
+const ClassForm = dynamic(() => import('./forms/ClassForm'), {
+	loading: () => <h1>Загрузка...</h1>,
+})
 
 const forms: {
 	[key: string]: (
@@ -64,6 +67,14 @@ const forms: {
 	),
 	discipline: (setOpen, type, data, relatedData) => (
 		<DisciplineForm
+			type={type}
+			data={data}
+			setOpen={setOpen}
+			relatedData={relatedData}
+		/>
+	),
+	class: (setOpen, type, data, relatedData) => (
+		<ClassForm
 			type={type}
 			data={data}
 			setOpen={setOpen}
@@ -133,7 +144,8 @@ const FormModal = ({
 			<form action={formAction} className='p-4 flex flex-col gap-4'>
 				<input type='text | number' name='id' value={id} hidden />
 				<span className='text-center font-medium'>
-					Все данные будут потеряны. Вы уверены, что хотите удалить данный элемент?
+					Все данные будут потеряны. Вы уверены, что хотите удалить данный
+					элемент?
 				</span>
 				<button className='bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center'>
 					Удалить

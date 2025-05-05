@@ -107,7 +107,7 @@ const DisciplineForm = ({
 			{state.error && (
 				<span className='text-red-500'>Что-то пошло не так!</span>
 			)}
-			<button className='bg-[#B3E2FD] p-2 rounded-md'>
+			<button className='bg-blue-400 text-white p-2 rounded-md'>
 				{type === 'create' ? 'Создать' : 'Обновить'}
 			</button>
 		</form>

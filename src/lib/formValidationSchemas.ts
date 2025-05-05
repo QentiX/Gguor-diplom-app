@@ -17,3 +17,19 @@ export const disciplineSchema = z.object({
 })
 
 export type DisciplineSchema = z.infer<typeof disciplineSchema>
+
+export const classSchema = z.object({
+	id: z.coerce.number().optional(),
+	name: z
+		.string()
+		.min(1, { message: 'Требуется указать название класса/курса!' }),
+	capacity: z.coerce
+		.number()
+		.min(1, { message: 'Требуется указать вместимость!' }),
+	gradeId: z.coerce
+		.number()
+		.min(1, { message: 'Требуется указать название класса/курса!' }),
+	supervisorId: z.coerce.string().optional(),
+})
+
+export type ClassSchema = z.infer<typeof classSchema>
