@@ -1,27 +1,65 @@
+'use client'
 
-
+import GlobalApi from '@/app/_services/GlobalApi'
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
+	SelectLabel,
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import prisma from '@/lib/prisma'
+import { useEffect, useState } from 'react'
 
-const SubjectSelection = async () => {
+const SubjectSelection = ({selectedSubject}:{selectedSubject:any}) => {
+	const [subjects, setSubjects] = useState<any[]>([])
+	const [disciplines, setDisciplines] = useState<any[]>([])
 
-	const data = await prisma.subject.findMany()
+	useEffect(() => {
+		GetAllClassList(), GetAllDisciplineList()
+	}, [])
+
+	const GetAllClassList = () => {
+		GlobalApi.GetAllSubjects().then((resp: any) => {
+			setSubjects(resp.data)
+		})
+	}
+
+	const GetAllDisciplineList = () => {
+		GlobalApi.GetAllDisciplines().then((resp: any) => {
+			setDisciplines(resp.data)
+		})
+	}
+	// const data = await prisma.subject.findMany()
 	return (
-		<Select>
-			<SelectTrigger className='w-[200px]'>
-				<SelectValue placeholder='Выберите предмет' />
+		<Select onValueChange={(e: any) => selectedSubject(e)}>
+			<SelectTrigger className='w-[240px]'>
+				<SelectValue placeholder='Выберите предмет/дисциплину' />
 			</SelectTrigger>
 			<SelectContent>
-				{data.map((item, index) => (
+				<SelectGroup>
+					<SelectLabel>Предметы</SelectLabel>
+					{subjects.map((item, index) => (
+						<SelectItem key={index} value={item.name}>
+							{item.name}
+						</SelectItem>
+					))}
+				</SelectGroup>
+				<SelectGroup>
+					<SelectLabel>Дисциплины</SelectLabel>
+					{disciplines.map((item, index) => (
+						<SelectItem key={index} value={item.name}>
+							{item.name}
+						</SelectItem>
+					))}
+				</SelectGroup>
+			</SelectContent>
+			{/* <SelectContent>
+				{subjects.map((item, index) => (
 					<SelectItem key={index} value={item.name}>{item.name}</SelectItem>
 				))}
-			</SelectContent>
+			</SelectContent> */}
 		</Select>
 	)
 }

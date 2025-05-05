@@ -12,7 +12,7 @@ const AttendanceListPage = () => {
 	const [selectedSubject, setSelectedSubject] = useState()
 
 	const onSearchHandler = () => {
-		console.log(selectedMonth)
+		console.log(selectedMonth, selectedClass, selectedSubject)
 	}
 	return (
 		<div className='bg-white p-4 rounded-md flex-1 m-4 mt-0'>
@@ -20,9 +20,13 @@ const AttendanceListPage = () => {
 				Посещаемость
 			</h1>
 			<div className='flex items-center gap-3'>
-				{/* <ClassSelection />
+				<SubjectSelection
+					selectedSubject={(value: any) => setSelectedSubject(value)}
+				/>
 
-				<SubjectSelection /> */}
+				<ClassSelection
+					selectedClass={(value: any) => setSelectedClass(value)}
+				/>
 
 				<MonthSelection
 					selectedMonth={(value: any) => setSelectedMonth(value)}

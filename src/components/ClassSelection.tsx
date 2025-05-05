@@ -1,5 +1,6 @@
+'use client'
 
-
+import GlobalApi from '@/app/_services/GlobalApi'
 import {
 	Select,
 	SelectContent,
@@ -7,19 +8,31 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import prisma from '@/lib/prisma'
+import { useEffect, useState } from 'react'
 
-const ClassSelection = async () => {
+const ClassSelection = ({ selectedClass }: { selectedClass: any }) => {
+	const [classes, setClasses] = useState<any[]>([])
 
-	const data = await prisma.class.findMany()
+	useEffect(() => {
+		GetAllClassList()
+	}, [])
+
+	const GetAllClassList = () => {
+		GlobalApi.GetAllClasses().then((resp: any) => {
+			setClasses(resp.data)
+		})
+	}
+	// const data = await prisma.class.findMany()
 	return (
-		<Select>
+		<Select onValueChange={(e: any) => selectedClass(e)}>
 			<SelectTrigger className='w-[180px]'>
 				<SelectValue placeholder='Выберите класс' />
 			</SelectTrigger>
 			<SelectContent>
-				{data.map((item, index) => (
-					<SelectItem key={index} value={item.name}>{item.name}</SelectItem>
+				{classes.map((item, index) => (
+					<SelectItem key={index} value={item.name}>
+						{item.name}
+					</SelectItem>
 				))}
 			</SelectContent>
 		</Select>
