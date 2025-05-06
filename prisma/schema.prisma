@@ -189,6 +189,7 @@ model Attendance {
   id      Int      @id @default(autoincrement())
   date    DateTime
   present Boolean
+  day     Int
 
   studentId String
   student   Student @relation(fields: [studentId], references: [id])

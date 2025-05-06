@@ -1,8 +1,7 @@
-import FormModal from '@/components/FormModal'
+import FormContainer from '@/components/FormContainer'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
-import { role } from '@/lib/data'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/settings'
 import { auth } from '@clerk/nextjs/server'
@@ -11,7 +10,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 type TeacherList = Teacher & { subjects: Subject[] } & { classes: Class[] }
-
 
 const TeacherListPage = async ({
 	searchParams,
@@ -57,10 +55,10 @@ const TeacherListPage = async ({
 						header: 'Действия',
 						accessor: 'action',
 					},
-				]
+			  ]
 			: []),
 	]
-	
+
 	const renderRow = (item: TeacherList) => (
 		<tr
 			key={item.id}
@@ -96,7 +94,7 @@ const TeacherListPage = async ({
 						</button>
 					</Link>
 					{role === 'admin' && (
-						<FormModal table='teacher' type='delete' id={item.id} />
+						<FormContainer table='teacher' type='delete' id={item.id} />
 					)}
 				</div>
 			</td>
@@ -169,7 +167,9 @@ const TeacherListPage = async ({
 								height={16}
 							/>
 						</button>
-						{role === 'admin' && <FormModal table='teacher' type='create' />}
+						{role === 'admin' && (
+							<FormContainer table='teacher' type='create' />
+						)}
 					</div>
 				</div>
 			</div>
