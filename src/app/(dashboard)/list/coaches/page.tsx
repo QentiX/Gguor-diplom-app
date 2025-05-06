@@ -1,4 +1,4 @@
-import FormModal from '@/components/FormModal'
+import FormContainer from '@/components/FormContainer'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
@@ -8,18 +8,6 @@ import { auth } from '@clerk/nextjs/server'
 import { Coach, Disciplines, Prisma } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
-
-// type Coach = {
-// 	id: number
-// 	teacherId: string
-// 	name: string
-// 	email?: string
-// 	photo: string
-// 	phone: string
-// 	subjects: string[]
-// 	classes: string[]
-// 	address: string
-// }
 
 type CoachList = Coach & { disciplines: Disciplines[] }
 
@@ -98,7 +86,7 @@ const CoachListPage = async ({
 						</button>
 					</Link>
 					{role === 'admin' && (
-						<FormModal table='coach' type='delete' id={item.id} />
+						<FormContainer table='coach' type='delete' id={item.id} />
 					)}
 				</div>
 			</td>
@@ -170,7 +158,7 @@ const CoachListPage = async ({
 								height={16}
 							/>
 						</button>
-						{role === 'admin' && <FormModal table='coach' type='create' />}
+						{role === 'admin' && <FormContainer table='coach' type='create' />}
 					</div>
 				</div>
 			</div>

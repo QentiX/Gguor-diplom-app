@@ -22,6 +22,7 @@ model Student {
   address     String
   img         String?
   position    String
+  status      String?
   sex         UserSex
   createdAt   DateTime     @default(now())
   classId     Int
@@ -63,7 +64,7 @@ model Coach {
   img       String?
   position  String?
   qualification String?
-  achievements String[]
+  achievements String?
   sex       UserSex
   createdAt DateTime  @default(now())
   disciplines  Disciplines[]

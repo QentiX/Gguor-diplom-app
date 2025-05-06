@@ -5,7 +5,15 @@ import TableSearch from '@/components/TableSearch'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/settings'
 import { auth } from '@clerk/nextjs/server'
-import { Assignment, Class, Prisma, Subject, Teacher } from '@prisma/client'
+import {
+	Assignment,
+	Class,
+	Coach,
+	Disciplines,
+	Prisma,
+	Subject,
+	Teacher,
+} from '@prisma/client'
 import Image from 'next/image'
 
 type AssignmentList = Assignment & {
@@ -13,6 +21,8 @@ type AssignmentList = Assignment & {
 		subject: Subject
 		class: Class
 		teacher: Teacher
+		disciplines: Disciplines
+		coach: Coach
 	}
 }
 
@@ -27,7 +37,7 @@ const AssignmentListPage = async ({
 
 	const columns = [
 		{
-			header: 'Название предмета/дисциплины',
+			header: 'Название',
 			accessor: 'name',
 		},
 		{
@@ -44,14 +54,14 @@ const AssignmentListPage = async ({
 			accessor: 'dueDate',
 			className: 'hidden md:table-cell',
 		},
-		...(role === "admin" || role === "teacher"
-      ? [
-          {
-            header: "Действия",
-            accessor: "action",
-          },
-        ]
-      : []),
+		...(role === 'admin' || role === 'teacher' || role === 'coach'
+			? [
+					{
+						header: 'Действия',
+						accessor: 'action',
+					},
+			  ]
+			: []),
 	]
 
 	const renderRow = (item: AssignmentList) => (
@@ -60,18 +70,22 @@ const AssignmentListPage = async ({
 			className='border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#ecf8ff]'
 		>
 			<td className='flex items-center gap-4 p-4'>
-				{item.lesson.subject.name}
+				{item.lesson.subject
+					? item.lesson.subject.name
+					: item.lesson.disciplines.name}
 			</td>
 			<td>{item.lesson.class.name}</td>
 			<td className='hidden md:table-cell'>
-				{item.lesson.teacher.name + ' ' + item.lesson.teacher.surname}
+				{item.lesson.teacher
+					? item.lesson.teacher.name + ' ' + item.lesson.teacher.surname
+					: item.lesson.coach.name + ' ' + item.lesson.coach.surname}
 			</td>
 			<td className='hidden md:table-cell'>
 				{new Intl.DateTimeFormat('ru').format(item.dueDate)}
 			</td>
 			<td>
 				<div className='flex items-center gap-2'>
-					{(role === 'admin' || role === 'teacher') && (
+					{(role === 'admin' || role === 'teacher' || role === 'coach') && (
 						<>
 							<FormModal table='assignment' type='update' data={item} />
 							<FormModal table='assignment' type='delete' id={item.id} />
@@ -101,14 +115,20 @@ const AssignmentListPage = async ({
 					case 'teacherId':
 						query.lesson.teacherId = value
 						break
+					case 'coachId':
+						query.lesson.coachId = value
+						break
 					case 'search':
 						query.lesson.subject = {
+							name: { contains: value, mode: 'insensitive' },
+						}
+						query.lesson.disciplines = {
 							name: { contains: value, mode: 'insensitive' },
 						}
 						break
 					default:
 						break
-				} 
+				}
 			}
 		}
 	}
@@ -144,7 +164,9 @@ const AssignmentListPage = async ({
 				lesson: {
 					select: {
 						subject: { select: { name: true } },
+						disciplines: { select: { name: true } },
 						teacher: { select: { name: true, surname: true } },
+						coach: { select: { name: true, surname: true } },
 						class: { select: { name: true } },
 					},
 				},

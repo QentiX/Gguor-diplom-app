@@ -73,3 +73,85 @@ export const teacherSchema = z.object({
 })
 
 export type TeacherSchema = z.infer<typeof teacherSchema>
+
+export const coachSchema = z.object({
+	id: z.string().optional(),
+	username: z
+		.string()
+		.min(3, {
+			message:
+				'Длина логина пользователя должна составлять не менее 3 символов!',
+		})
+		.max(20, {
+			message:
+				'Длина логина пользователя должна составлять не более 20 символов!',
+		}),
+	password: z
+		.string()
+		.min(8, { message: 'Длина пароля должна составлять не менее 8 символов!' })
+		.optional()
+		.or(z.literal('')),
+	name: z.string().min(1, { message: 'Требуется указать имя!' }),
+	surname: z.string().min(1, { message: 'Требуется указать фамилию!' }),
+	email: z
+		.string()
+		.email({ message: 'Неверный адрес электронной почты!' })
+		.optional()
+		.or(z.literal('')),
+	phone: z.string().optional(),
+	address: z.string(),
+	img: z.string().optional(),
+	position: z
+		.string()
+		.min(1, { message: 'Требуется указать должность!' })
+		.optional()
+		.or(z.literal('')),
+	qualification: z
+		.string()
+		.min(1, { message: 'Требуется указать квалификацию!' })
+		.optional()
+		.or(z.literal('')),
+	sex: z.enum(['MALE', 'FEMALE'], { message: 'Необходимо указать пол!' }),
+	birthday: z.coerce.date({ message: 'Дата рождения обязательна!' }),
+	disciplines: z.array(z.string()).optional(),
+	achievements: z.string().optional(),
+})
+
+export type CoachSchema = z.infer<typeof coachSchema>
+
+export const studentSchema = z.object({
+	id: z.string().optional(),
+	username: z
+		.string()
+		.min(3, {
+			message:
+				'Длина логина пользователя должна составлять не менее 3 символов!',
+		})
+		.max(20, {
+			message:
+				'Длина логина пользователя должна составлять не более 20 символов!',
+		}),
+	password: z
+		.string()
+		.min(8, { message: 'Длина пароля должна составлять не менее 8 символов!' })
+		.optional()
+		.or(z.literal('')),
+	name: z.string().min(1, { message: 'Требуется указать имя!' }),
+	surname: z.string().min(1, { message: 'Требуется указать фамилию!' }),
+	email: z
+		.string()
+		.email({ message: 'Неверный адрес электронной почты!' })
+		.optional()
+		.or(z.literal('')),
+	phone: z.string().optional(),
+	address: z.string(),
+	img: z.string().optional(),
+	position: z.string().min(1, { message: 'Требуется указать должность!' }),
+	birthday: z.coerce.date({ message: 'Дата рождения обязательна!' }),
+	sex: z.enum(['MALE', 'FEMALE'], { message: 'Необходимо указать пол!' }),
+	gradeId: z.coerce.number().min(1, { message: 'Необходимо указать класс!' }),
+	classId: z.coerce.number().min(1, { message: 'Необходимо указать группу!' }),
+	status: z.string().optional(),
+})
+
+export type StudentSchema = z.infer<typeof studentSchema>

@@ -1,9 +1,35 @@
 import Announcements from '@/components/Announcements'
-import BigCalendar from '@/components/BigCalender'
+import BigCalendarContainer from '@/components/BigCalendarContainer'
+import FormContainer from '@/components/FormContainer'
+import prisma from '@/lib/prisma'
+import { auth } from '@clerk/nextjs/server'
+import { Class, Student } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
-const SingleStudentPage = () => {
+const SingleStudentPage = async ({
+	params: { id },
+}: {
+	params: { id: string }
+}) => {
+	const { sessionClaims } = await auth()
+	const role = (sessionClaims?.metadata as { role?: string })?.role
+
+	const student:
+		| (Student & {
+				class: Class & { _count: { lessons: number } }
+		  })
+		| null = await prisma.student.findUnique({
+		where: { id },
+		include: {
+			class: { include: { _count: { select: { lessons: true } } } },
+		},
+	})
+
+	if (!student) {
+		return notFound()
+	}
 	return (
 		<div className='flex-1 p-4 flex flex-col gap-4 xl:flex-row'>
 			{/* LEFT */}
@@ -14,7 +40,7 @@ const SingleStudentPage = () => {
 					<div className='bg-[#B3E2FD] py-6 px-4 rounded-md flex-1 flex gap-4'>
 						<div className='w-1/3'>
 							<Image
-								src='https://images.pexels.com/photos/5414817/pexels-photo-5414817.jpeg?auto=compress&cs=tinysrgb&w=1200'
+								src={student.img || '/no-profile-picture.svg'}
 								alt=''
 								width={144}
 								height={144}
@@ -22,26 +48,33 @@ const SingleStudentPage = () => {
 							/>
 						</div>
 						<div className='w-2/3 flex flex-col justify-between gap-4'>
-							<h1 className='text-xl font-semibold'>Cameron Moran</h1>
-							<p className='text-sm text-gray-500'>
-								Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-							</p>
+							<div className='flex items-center gap-4'>
+								<h1 className='text-xl font-semibold'>
+									{student.name + ' ' + student.surname}
+								</h1>
+								{role === 'admin' && (
+									<FormContainer table='student' type='update' data={student} />
+								)}
+							</div>
+							<p className='text-sm text-gray-500'>{student.status || '-'}</p>
 							<div className='flex items-center justify-between gap-2 flex-wrap text-xs font-medium'>
 								<div className='w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2'>
 									<Image src='/123.png' alt='' width={15} height={15} />
-									<span>Студент</span>
+									<span>{student.position}</span>
 								</div>
 								<div className='w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2'>
 									<Image src='/date.png' alt='' width={14} height={14} />
-									<span>January 2025</span>
+									<span>
+										{new Intl.DateTimeFormat('ru').format(student.birthday)}
+									</span>
 								</div>
 								<div className='w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2'>
 									<Image src='/mail.png' alt='' width={14} height={14} />
-									<span>user@gmail.com</span>
+									<span>{student.email || '-'}</span>
 								</div>
 								<div className='w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2'>
 									<Image src='/phone.png' alt='' width={14} height={14} />
-									<span>+1 234 567</span>
+									<span>{student.phone || '-'}</span>
 								</div>
 							</div>
 						</div>
@@ -72,8 +105,10 @@ const SingleStudentPage = () => {
 								className='w-6 h-6'
 							/>
 							<div className=''>
-								<h1 className='text-xl font-semibold'>6th</h1>
-								<span className='text-sm text-gray-400'>Класс</span>
+								<h1 className='text-xl font-semibold'>
+									{student.class.name.charAt(0)}
+								</h1>
+								<span className='text-sm text-gray-400'>Класс/Курс</span>
 							</div>
 						</div>
 						{/* CARD */}
@@ -86,7 +121,9 @@ const SingleStudentPage = () => {
 								className='w-6 h-6'
 							/>
 							<div className=''>
-								<h1 className='text-xl font-semibold'>18</h1>
+								<h1 className='text-xl font-semibold'>
+									{student.class._count.lessons}
+								</h1>
 								<span className='text-sm text-gray-400'>Уроков</span>
 							</div>
 						</div>
@@ -100,7 +137,7 @@ const SingleStudentPage = () => {
 								className='w-6 h-6'
 							/>
 							<div className=''>
-								<h1 className='text-xl font-semibold'>6A</h1>
+								<h1 className='text-xl font-semibold'>{student.class.name}</h1>
 								<span className='text-sm text-gray-400'>Группа</span>
 							</div>
 						</div>
@@ -109,7 +146,7 @@ const SingleStudentPage = () => {
 				{/* BOTTOM */}
 				<div className='mt-4 bg-white rounded-md p-4 h-[800px]'>
 					<h1 className='text-xl font-semibold'>Расписание</h1>
-					<BigCalendar />
+					<BigCalendarContainer type='classId' id={student.class.id} />
 				</div>
 			</div>
 			{/* RIGHT */}
@@ -117,19 +154,34 @@ const SingleStudentPage = () => {
 				<div className='bg-white p-4 rounded-md'>
 					<h1 className='text-xl font-semibold'>Тэги</h1>
 					<div className='mt-4 flex gap-4 flex-wrap text-xs font-semibold'>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/lessons?classId=${1}`}>
-							Уроки ученика
+						<Link
+							className='p-3 rounded-md bg-[#B3E2FD]'
+							href={`/list/lessons?classId=${student.class.id}`}
+						>
+							Занятия ученика
 						</Link>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/teachers?classId=${1}`}>
-              Преподаватели ученика
+						<Link
+							className='p-3 rounded-md bg-[#B3E2FD]'
+							href={`/list/teachers?classId=${student.class.id}`}
+						>
+							Преподаватели ученика
 						</Link>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/exams?classId=${1}`}>
+						<Link
+							className='p-3 rounded-md bg-[#B3E2FD]'
+							href={`/list/exams?classId=${student.class.id}`}
+						>
 							Экзамены ученика
 						</Link>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/assignments?classId=${1}`}>
+						<Link
+							className='p-3 rounded-md bg-[#B3E2FD]'
+							href={`/list/assignments?classId=${student.class.id}`}
+						>
 							Задания ученика
 						</Link>
-						<Link className='p-3 rounded-md bg-[#B3E2FD]' href={`/list/results?studentId=${"student1"}`}>
+						<Link
+							className='p-3 rounded-md bg-[#B3E2FD]'
+							href={`/list/results?studentId=${student.id}`}
+						>
 							Результаты ученика
 						</Link>
 					</div>

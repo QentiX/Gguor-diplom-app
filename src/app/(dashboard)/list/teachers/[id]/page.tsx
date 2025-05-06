@@ -178,7 +178,7 @@ const SingleTeacherPage = async ({
 							className='p-3 rounded-md bg-[#B3E2FD]'
 							href={`/list/lessons?teacherId=${teacher.id}`}
 						>
-							Уроки учителя
+							Занятия учителя
 						</Link>
 						<Link
 							className='p-3 rounded-md bg-[#B3E2FD]'

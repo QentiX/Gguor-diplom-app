@@ -96,7 +96,7 @@ const LessonListPage = async ({
 						query.teacherId = value
 						break
 					case 'coachId':
-						query.teacherId = value
+						query.coachId = value
 						break
 					case 'search':
 						query.OR = [

@@ -1,3 +1,4 @@
+import FormContainer from '@/components/FormContainer'
 import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
@@ -96,7 +97,7 @@ const StudentListPage = async ({
 						</button>
 					</Link>
 					{role === 'admin' && (
-						<FormModal table='student' type='delete' id={item.id} />
+						<FormContainer table="student" type="delete" id={item.id} />
 					)}
 				</div>
 			</td>
@@ -171,7 +172,7 @@ const StudentListPage = async ({
 								height={16}
 							/>
 						</button>
-						{role === 'admin' && <FormModal table='student' type='create' />}
+						{role === 'admin' && <FormContainer table='student' type='create' />}
 					</div>
 				</div>
 			</div>
