@@ -4,6 +4,7 @@ import {
 	deleteClass,
 	deleteCoach,
 	deleteDiscipline,
+	deleteExam,
 	deleteStudent,
 	deleteSubject,
 	deleteTeacher,
@@ -24,7 +25,7 @@ const deleteActionMap = {
 	student: deleteStudent,
 	coach: deleteCoach,
 	lesson: deleteSubject,
-	exam: deleteSubject,
+	exam: deleteExam,
 	assignment: deleteSubject,
 	result: deleteSubject,
 	attendance: deleteSubject,
@@ -54,6 +55,9 @@ const DisciplineForm = dynamic(() => import('./forms/DisciplineForm'), {
 })
 const ClassForm = dynamic(() => import('./forms/ClassForm'), {
 	loading: () => <h1>Загрузка...</h1>,
+})
+const ExamForm = dynamic(() => import('./forms/ExamForm'), {
+	loading: () => <h1>Loading...</h1>,
 })
 
 const forms: {
@@ -106,6 +110,14 @@ const forms: {
 	),
 	student: (setOpen, type, data, relatedData) => (
 		<StudentForm
+			type={type}
+			data={data}
+			setOpen={setOpen}
+			relatedData={relatedData}
+		/>
+	),
+	exam: (setOpen, type, data, relatedData) => (
+		<ExamForm
 			type={type}
 			data={data}
 			setOpen={setOpen}

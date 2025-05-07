@@ -43,7 +43,7 @@ const StudentListPage = async ({
 			className: 'hidden md:table-cell',
 		},
 		{
-			header: 'Класс',
+			header: 'Группа',
 			accessor: 'grade',
 			className: 'hidden md:table-cell',
 		},

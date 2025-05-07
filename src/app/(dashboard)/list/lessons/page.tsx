@@ -34,7 +34,7 @@ const LessonListPage = async ({
 			accessor: 'name',
 		},
 		{
-			header: 'Класс/Курс',
+			header: 'Группа',
 			accessor: 'class',
 		},
 		{

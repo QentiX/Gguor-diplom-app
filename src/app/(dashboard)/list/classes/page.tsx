@@ -21,7 +21,7 @@ const ClassListPage = async ({
 
 	const columns = [
 		{
-			header: 'Название класса',
+			header: 'Группа',
 			accessor: 'name',
 		},
 		{

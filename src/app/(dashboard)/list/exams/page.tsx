@@ -1,4 +1,4 @@
-import FormModal from '@/components/FormModal'
+import FormContainer from '@/components/FormContainer'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
@@ -41,11 +41,11 @@ const ExamListPage = async ({
 			accessor: 'name',
 		},
 		{
-			header: 'Класс/Курс',
+			header: 'Группа',
 			accessor: 'class',
 		},
 		{
-			header: 'Учитель',
+			header: 'Учитель/Тренер',
 			accessor: 'teacher',
 			className: 'hidden md:table-cell',
 		},
@@ -70,9 +70,10 @@ const ExamListPage = async ({
 			className='border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#ecf8ff]'
 		>
 			<td className='flex items-center gap-4 p-4'>
-				{item.lesson.subject
+				{item.title}
+				{/* {item.lesson.subject
 					? item.lesson.subject.name
-					: item.lesson.disciplines.name}
+					: item.lesson.disciplines.name} */}
 			</td>
 			<td>{item.lesson.class.name}</td>
 			<td className='hidden md:table-cell'>
@@ -87,8 +88,8 @@ const ExamListPage = async ({
 				<div className='flex items-center gap-2'>
 					{(role === 'admin' || role === 'teacher' || role === 'coach') && (
 						<>
-							<FormModal table='exam' type='update' data={item} />
-							<FormModal table='exam' type='delete' id={item.id} />
+							<FormContainer table='exam' type='update' data={item} />
+							<FormContainer table='exam' type='delete' id={item.id} />
 						</>
 					)}
 				</div>
@@ -201,7 +202,11 @@ const ExamListPage = async ({
 								height={16}
 							/>
 						</button>
-						{role === 'admin' && <FormModal table='class' type='create' />}
+						{(role === 'admin' || role === 'teacher' || role === 'coach') && (
+							<>
+								<FormContainer table='exam' type='create' />
+							</>
+						)}
 					</div>
 				</div>
 			</div>

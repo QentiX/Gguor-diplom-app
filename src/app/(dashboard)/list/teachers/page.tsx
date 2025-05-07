@@ -35,14 +35,14 @@ const TeacherListPage = async ({
 			className: 'hidden md:table-cell',
 		},
 		{
-			header: 'Классы/Курсы',
+			header: 'Группа',
 			accessor: 'classes',
-			className: 'hidden md:table-cell',
+			className: 'hidden xl:table-cell',
 		},
 		{
 			header: 'Телефон',
 			accessor: 'phone',
-			className: 'hidden md:table-cell',
+			className: 'hidden xl:table-cell',
 		},
 		{
 			header: 'Адрес',
@@ -81,10 +81,10 @@ const TeacherListPage = async ({
 			<td className='hidden md:table-cell'>
 				{item.subjects.map(subject => subject.name).join(', ')}
 			</td>
-			<td className='hidden md:table-cell'>
+			<td className='hidden xl:table-cell'>
 				{item.classes.map(classItem => classItem.name).join(', ')}
 			</td>
-			<td className='hidden md:table-cell'>{item.phone}</td>
+			<td className='hidden xl:table-cell'>{item.phone}</td>
 			<td className='hidden lg:table-cell'>{item.address}</td>
 			<td>
 				<div className='flex items-center gap-2'>

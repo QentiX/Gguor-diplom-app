@@ -24,7 +24,7 @@ const AnnouncementListPage = async ({
 			accessor: 'title',
 		},
 		{
-			header: 'Класс',
+			header: 'Группа',
 			accessor: 'class',
 		},
 		{

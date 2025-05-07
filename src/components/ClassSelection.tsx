@@ -26,7 +26,7 @@ const ClassSelection = ({ selectedClass }: { selectedClass: any }) => {
 	return (
 		<Select onValueChange={(e: any) => selectedClass(e)}>
 			<SelectTrigger className='w-[180px]'>
-				<SelectValue placeholder='Выберите класс' />
+				<SelectValue placeholder='Выберите группу' />
 			</SelectTrigger>
 			<SelectContent>
 				{classes.map((item, index) => (

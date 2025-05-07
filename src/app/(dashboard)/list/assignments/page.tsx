@@ -41,7 +41,7 @@ const AssignmentListPage = async ({
 			accessor: 'name',
 		},
 		{
-			header: 'Класс',
+			header: 'Группа',
 			accessor: 'class',
 		},
 		{
