@@ -1,4 +1,4 @@
-import FormModal from '@/components/FormModal'
+import FormContainer from '@/components/FormContainer'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
@@ -15,6 +15,8 @@ type ResultList = {
 	studentSurname: string
 	teacherName: string
 	teacherSurname: string
+	coachName: string
+	coachSurname: string
 	score: number
 	className: string
 	startTime: Date
@@ -44,12 +46,12 @@ const ResultListPage = async ({
 			className: 'hidden md:table-cell',
 		},
 		{
-			header: 'Учитель/тренер',
+			header: 'Учитель/Тренер',
 			accessor: 'teacher',
 			className: 'hidden lg:table-cell',
 		},
 		{
-			header: 'Класс',
+			header: 'Группа',
 			accessor: 'class',
 			className: 'hidden lg:table-cell',
 		},
@@ -73,25 +75,27 @@ const ResultListPage = async ({
 			key={item.id}
 			className='border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#ecf8ff]'
 		>
-			<td className='flex items-center gap-4 p-4'>{item.title}</td>
+			<td className='flex items-center gap-4 p-4'>{item?.title}</td>
 			<td>{item.studentName + ' ' + item.studentName}</td>
 			<td className='hidden md:table-cell'>{item.score}</td>
 			<td className='hidden lg:table-cell'>
-				{item.teacherName + ' ' + item.teacherSurname}
+				{item.teacherName && item.teacherSurname
+					? item.teacherName + ' ' + item.teacherSurname
+					: item.coachName + ' ' + item.coachSurname}
 			</td>
 			<td className='hidden lg:table-cell'>{item.className}</td>
 			<td className='hidden md:table-cell'>
 				{new Intl.DateTimeFormat('ru').format(item.startTime)}
 			</td>
 			<td>
-			{/* <div className="flex items-center gap-2">
-        {(role === "admin" || role === "teacher" || role === 'coach') && (
-          <>
-            <FormContainer table="result" type="update" data={item} />
-            <FormContainer table="result" type="delete" id={item.id} />
-          </>
-        )}
-      </div> */}
+				<div className='flex items-center gap-2'>
+					{(role === 'admin' || role === 'teacher' || role === 'coach') && (
+						<>
+							<FormContainer table='result' type='update' data={item} />
+							<FormContainer table='result' type='delete' id={item.id} />
+						</>
+					)}
+				</div>
 			</td>
 		</tr>
 	)
@@ -114,6 +118,9 @@ const ResultListPage = async ({
 					case 'search':
 						query.OR = [
 							{ exam: { title: { contains: value, mode: 'insensitive' } } },
+							{
+								assignment: { title: { contains: value, mode: 'insensitive' } },
+							},
 							{ student: { name: { contains: value, mode: 'insensitive' } } },
 						]
 						break
@@ -126,29 +133,27 @@ const ResultListPage = async ({
 
 	// ROLE CONDITIONS
 
-  switch (role) {
-    case "admin":
-      break;
-    case "teacher":
-      query.OR = [
-        { exam: { lesson: { teacherId: currentUserId! } } },
-        { assignment: { lesson: { teacherId: currentUserId! } } },
-      ];
-      break;
-
-    case "student":
-      query.studentId = currentUserId!;
-      break;
-
-    case "coach":
-      query.OR = [
-        { exam: { lesson: { coachId: currentUserId! } } },
-        { assignment: { lesson: { coachId: currentUserId! } } },
-      ];
-      break;
-    default:
-      break;
-  }
+	switch (role) {
+		case 'admin':
+			break
+		case 'teacher':
+			query.OR = [
+				{ exam: { lesson: { teacherId: currentUserId! } } },
+				{ assignment: { lesson: { teacherId: currentUserId! } } },
+			]
+			break
+		case 'student':
+			query.studentId = currentUserId!
+			break
+		case 'coach':
+			query.OR = [
+				{ exam: { lesson: { coachId: currentUserId! } } },
+				{ assignment: { lesson: { coachId: currentUserId! } } },
+			]
+			break
+		default:
+			break
+	}
 
 	const [dataRes, count] = await prisma.$transaction([
 		prisma.result.findMany({
@@ -161,6 +166,7 @@ const ResultListPage = async ({
 							select: {
 								class: { select: { name: true } },
 								teacher: { select: { name: true, surname: true } },
+								coach: { select: { name: true, surname: true } },
 							},
 						},
 					},
@@ -171,6 +177,7 @@ const ResultListPage = async ({
 							select: {
 								class: { select: { name: true } },
 								teacher: { select: { name: true, surname: true } },
+								coach: { select: { name: true, surname: true } },
 							},
 						},
 					},
@@ -196,6 +203,8 @@ const ResultListPage = async ({
 			studentSurname: item.student.surname,
 			teacherName: assessment.lesson.teacher?.name,
 			teacherSurname: assessment.lesson.teacher?.surname,
+			coachName: assessment.lesson.coach?.name,
+			coachSurname: assessment.lesson.coach?.surname,
 			score: item.score,
 			className: assessment.lesson.class.name,
 			startTime: isExam ? assessment.startTime : assessment.startDate,
@@ -228,10 +237,11 @@ const ResultListPage = async ({
 								height={16}
 							/>
 						</button>
-						{role === 'admin' ||
-							(role === 'teacher' && (
-								<FormModal table='result' type='create' />
-							))}
+						{(role === 'admin' || role === 'teacher' || role === 'coach') && (
+							<>
+								<FormContainer table='result' type='create' />
+							</>
+						)}
 					</div>
 				</div>
 			</div>

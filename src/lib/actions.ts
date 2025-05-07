@@ -8,6 +8,7 @@ import {
 	DisciplineSchema,
 	EventSchema,
 	ExamSchema,
+	ResultSchema,
 	StudentSchema,
 	SubjectSchema,
 	TeacherSchema,
@@ -580,14 +581,14 @@ export const createExam = async (
 		}
 
 		if (role === 'coach') {
-			const teacherLesson = await prisma.lesson.findFirst({
+			const coachLesson = await prisma.lesson.findFirst({
 				where: {
 					coachId: userId!,
 					id: data.lessonId,
 				},
 			})
 
-			if (!teacherLesson) {
+			if (!coachLesson) {
 				return { success: false, error: true }
 			}
 		}
@@ -631,14 +632,14 @@ export const updateExam = async (
 		}
 
 		if (role === 'coach') {
-			const teacherLesson = await prisma.lesson.findFirst({
+			const coachLesson = await prisma.lesson.findFirst({
 				where: {
 					coachId: userId!,
 					id: data.lessonId,
 				},
 			})
 
-			if (!teacherLesson) {
+			if (!coachLesson) {
 				return { success: false, error: true }
 			}
 		}
@@ -812,6 +813,195 @@ export const deleteAnnouncement = async (
 	const id = data.get('id') as string
 	try {
 		await prisma.announcement.delete({
+			where: {
+				id: parseInt(id),
+			},
+		})
+
+		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const createResult = async (
+	currentState: CurrentState,
+	data: ResultSchema
+) => {
+	const { userId, sessionClaims } = await auth()
+	const role = (sessionClaims?.metadata as { role?: string })?.role
+
+	try {
+		// if (role === 'teacher') {
+		// 	const teacherExam = await prisma.exam.findFirst({
+		// 		where: {
+		// 			lesson: {
+		// 				teacherId: userId!,
+		// 				id: data.examId,
+		// 			},
+		// 		},
+		// 	})
+
+		// 	const teacherAssign = await prisma.assignment.findFirst({
+		// 		where: {
+		// 			lesson: {
+		// 				teacherId: userId!,
+		// 				id: data.assignmentId,
+		// 			},
+		// 		},
+		// 	})
+
+		// 	if (!teacherExam) {
+		// 		return { success: false, error: true }
+		// 	}
+
+		// 	if (!teacherAssign) {
+		// 		return { success: false, error: true }
+		// 	}
+		// }
+
+		// if (role === 'coach') {
+		// 	const coachExam = await prisma.exam.findFirst({
+		// 		where: {
+		// 			lesson: {
+		// 				coachId: userId!,
+		// 				id: data.examId,
+		// 			},
+		// 		},
+		// 	})
+
+		// 	const coachAssign = await prisma.assignment.findFirst({
+		// 		where: {
+		// 			lesson: {
+		// 				coachId: userId!,
+		// 				id: data.assignmentId,
+		// 			},
+		// 		},
+		// 	})
+
+		// 	if (!coachExam) {
+		// 		return { success: false, error: true }
+		// 	}
+
+		// 	if (!coachAssign) {
+		// 		return { success: false, error: true }
+		// 	}
+		// }
+
+		await prisma.result.create({
+			data: {
+				score: data.score,
+				examId: data.examId || null,
+				assignmentId: data.assignmentId || null,
+				studentId: data.studentId,
+			},
+		})
+
+		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const updateResult = async (
+	currentState: CurrentState,
+	data: ResultSchema
+) => {
+	const { userId, sessionClaims } = await auth()
+	const role = (sessionClaims?.metadata as { role?: string })?.role
+
+	try {
+		// if (role === 'teacher') {
+		// 	const teacherExam = await prisma.exam.findFirst({
+		// 		where: {
+		// 			lesson: {
+		// 				teacherId: userId!,
+		// 				id: data.examId,
+		// 			},
+		// 		},
+		// 	})
+
+		// 	const teacherAssign = await prisma.assignment.findFirst({
+		// 		where: {
+		// 			lesson: {
+		// 				teacherId: userId!,
+		// 				id: data.assignmentId,
+		// 			},
+		// 		},
+		// 	})
+
+		// 	if (!teacherExam) {
+		// 		return { success: false, error: true }
+		// 	}
+
+		// 	if (!teacherAssign) {
+		// 		return { success: false, error: true }
+		// 	}
+		// }
+
+		// if (role === 'coach') {
+		// 	const coachExam = await prisma.exam.findFirst({
+		// 		where: {
+		// 			lesson: {
+		// 				coachId: userId!,
+		// 				id: data.examId,
+		// 			},
+		// 		},
+		// 	})
+
+		// 	const coachAssign = await prisma.assignment.findFirst({
+		// 		where: {
+		// 			lesson: {
+		// 				coachId: userId!,
+		// 				id: data.assignmentId,
+		// 			},
+		// 		},
+		// 	})
+
+		// 	if (!coachExam) {
+		// 		return { success: false, error: true }
+		// 	}
+
+		// 	if (!coachAssign) {
+		// 		return { success: false, error: true }
+		// 	}
+		// }
+
+		await prisma.result.update({
+			where: {
+				id: data.id,
+			},
+			data: {
+				score: data.score,
+				examId: data.examId || null,
+				assignmentId: data.assignmentId || null,
+				studentId: data.studentId,
+			},
+		})
+
+		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const deleteResult = async (
+	currentState: CurrentState,
+	data: FormData
+) => {
+	const id = data.get('id') as string
+
+	const { userId, sessionClaims } = await auth()
+	const role = (sessionClaims?.metadata as { role?: string })?.role
+
+	try {
+		await prisma.result.delete({
 			where: {
 				id: parseInt(id),
 			},

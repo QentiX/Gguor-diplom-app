@@ -114,7 +114,7 @@ const SingleTeacherPage = async ({
 								<h1 className='text-xl font-semibold'>
 									{teacher._count.subjects}
 								</h1>
-								<span className='text-sm text-gray-400'>Предметов</span>
+								<span className='text-sm text-gray-400'>Предмета</span>
 							</div>
 						</div>
 						{/* CARD */}
@@ -146,7 +146,7 @@ const SingleTeacherPage = async ({
 								<h1 className='text-xl font-semibold'>
 									{teacher._count.classes}
 								</h1>
-								<span className='text-sm text-gray-400'>Классов</span>
+								<span className='text-sm text-gray-400'>Групп</span>
 							</div>
 						</div>
 					</div>

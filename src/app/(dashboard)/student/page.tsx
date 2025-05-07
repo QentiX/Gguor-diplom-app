@@ -1,10 +1,14 @@
 import Announcements from '@/components/Announcements'
 import BigCalendarContainer from '@/components/BigCalendarContainer'
-import EventCalendar from '@/components/EventCalendar'
+import EventCalendarContainer from '@/components/EventCalendarContainer'
 import prisma from '@/lib/prisma'
 import { auth } from '@clerk/nextjs/server'
 
-const StudentPage = async () => {
+const StudentPage = async ({
+	searchParams,
+}: {
+	searchParams: { [keys: string]: string | undefined }
+}) => {
 	const { userId } = await auth()
 
 	const classItem = await prisma.class.findMany({
@@ -23,7 +27,7 @@ const StudentPage = async () => {
 			</div>
 			{/* RIGHT */}
 			<div className='w-full xl:w-1/3 flex flex-col gap-8'>
-				<EventCalendar />
+				<EventCalendarContainer searchParams={searchParams} />
 				<Announcements />
 			</div>
 		</div>

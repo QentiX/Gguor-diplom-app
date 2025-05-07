@@ -22,7 +22,7 @@ const menuItems = [
 				icon: '/users.svg',
 				label: 'Студенты',
 				href: '/list/students',
-				visible: ['admin', 'teacher', 'coach'],
+				visible: ['admin', 'teacher', 'student', 'coach'],
 			},
 			{
 				icon: '/users-round.svg',
@@ -101,18 +101,11 @@ const menuItems = [
 				href: '/profile',
 				visible: ['admin', 'teacher', 'student', 'coach'],
 			},
-			{
-				icon: '/log-out.svg',
-				label: 'Выйти',
-				href: '/logout',
-				visible: ['admin', 'teacher', 'student', 'coach'],
-			},
 		],
 	},
 ]
 
 const Menu = async () => {
-
 	const user = await currentUser()
 	const role = user?.publicMetadata.role as string
 
@@ -127,9 +120,14 @@ const Menu = async () => {
 						if (item.visible.includes(role)) {
 							return (
 								<Link
-									href={item.href}
+									href={
+										item.label === 'Домашняя страница'
+											? item.href + role
+											: item.href
+									}
+								  // href={item.href}
 									key={item.label}
-									className='flex items-center justify-center lg:justify-start gap-4 py-2 md:px-2 hover:bg-[#B3E2FD] active:bg-[#B3E2FD]'
+									className='flex items-center justify-center lg:justify-start gap-4 py-2 md:px-2 hover:bg-[#B3E2FD]'
 								>
 									<Image src={item.icon} alt='' width={20} height={20} />
 									<span className='hidden lg:block'>{item.label}</span>

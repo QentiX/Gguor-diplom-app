@@ -1,5 +1,4 @@
 import FormContainer from '@/components/FormContainer'
-import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
@@ -9,18 +8,6 @@ import { auth } from '@clerk/nextjs/server'
 import { Class, Prisma, Student } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
-
-// type Student = {
-// 	id: number
-// 	studentId: string
-// 	name: string
-// 	email?: string
-// 	photo: string
-// 	phone?: string
-// 	grade: number
-// 	class: string
-// 	address: string
-// }
 
 type StudentList = Student & { class: Class }
 
@@ -74,7 +61,7 @@ const StudentListPage = async ({
 		>
 			<td className='flex items-center gap-4 p-4'>
 				<Image
-					src={item.img || '/noAvatar.png'}
+					src={item.img || '/no-profile-picture.svg'}
 					alt=''
 					width={40}
 					height={40}
@@ -97,7 +84,7 @@ const StudentListPage = async ({
 						</button>
 					</Link>
 					{role === 'admin' && (
-						<FormContainer table="student" type="delete" id={item.id} />
+						<FormContainer table='student' type='delete' id={item.id} />
 					)}
 				</div>
 			</td>
@@ -172,7 +159,9 @@ const StudentListPage = async ({
 								height={16}
 							/>
 						</button>
-						{role === 'admin' && <FormContainer table='student' type='create' />}
+						{role === 'admin' && (
+							<FormContainer table='student' type='create' />
+						)}
 					</div>
 				</div>
 			</div>
