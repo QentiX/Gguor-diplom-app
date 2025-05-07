@@ -1,3 +1,4 @@
+import FormContainer from '@/components/FormContainer'
 import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
@@ -70,9 +71,10 @@ const AssignmentListPage = async ({
 			className='border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#ecf8ff]'
 		>
 			<td className='flex items-center gap-4 p-4'>
-				{item.lesson.subject
+				{item.title}
+				{/* {item.lesson.subject
 					? item.lesson.subject.name
-					: item.lesson.disciplines.name}
+					: item.lesson.disciplines.name} */}
 			</td>
 			<td>{item.lesson.class.name}</td>
 			<td className='hidden md:table-cell'>
@@ -87,8 +89,8 @@ const AssignmentListPage = async ({
 				<div className='flex items-center gap-2'>
 					{(role === 'admin' || role === 'teacher' || role === 'coach') && (
 						<>
-							<FormModal table='assignment' type='update' data={item} />
-							<FormModal table='assignment' type='delete' id={item.id} />
+							<FormContainer table='assignment' type='update' data={item} />
+							<FormContainer table='assignment' type='delete' id={item.id} />
 						</>
 					)}
 				</div>
@@ -201,10 +203,11 @@ const AssignmentListPage = async ({
 								height={16}
 							/>
 						</button>
-						{role === 'admin' ||
-							(role === 'teacher' && (
-								<FormModal table='assignment' type='create' />
-							))}
+						{(role === 'admin' || role === 'teacher' || role === 'coach') && (
+							<>
+								<FormContainer table='assignment' type='create' />
+							</>
+						)}
 					</div>
 				</div>
 			</div>

@@ -196,3 +196,13 @@ export const resultSchema = z.object({
 })
 
 export type ResultSchema = z.infer<typeof resultSchema>
+
+export const assignmentSchema = z.object({
+	id: z.coerce.number().optional(),
+	title: z.string().min(1, { message: 'Название обязательно!' }),
+	startDate: z.coerce.date({ message: 'Требуется время начала!' }),
+	dueDate: z.coerce.date({ message: 'Требуется время окончания!' }),
+	lessonId: z.coerce.number({ message: 'Требуется указать занятие!' }),
+})
+
+export type AssignmentSchema = z.infer<typeof assignmentSchema>
