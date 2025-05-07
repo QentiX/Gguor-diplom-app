@@ -1,9 +1,11 @@
 'use client'
 
 import {
+	deleteAnnouncement,
 	deleteClass,
 	deleteCoach,
 	deleteDiscipline,
+	deleteEvent,
 	deleteExam,
 	deleteStudent,
 	deleteSubject,
@@ -29,8 +31,8 @@ const deleteActionMap = {
 	assignment: deleteSubject,
 	result: deleteSubject,
 	attendance: deleteSubject,
-	event: deleteSubject,
-	announcement: deleteSubject,
+	event: deleteEvent,
+	announcement: deleteAnnouncement,
 }
 
 // USE LAZY LOADING
@@ -57,6 +59,12 @@ const ClassForm = dynamic(() => import('./forms/ClassForm'), {
 	loading: () => <h1>Загрузка...</h1>,
 })
 const ExamForm = dynamic(() => import('./forms/ExamForm'), {
+	loading: () => <h1>Loading...</h1>,
+})
+const EventForm = dynamic(() => import('./forms/EventForm'), {
+	loading: () => <h1>Loading...</h1>,
+})
+const AnnouncementForm = dynamic(() => import('./forms/AnnouncementForm'), {
 	loading: () => <h1>Loading...</h1>,
 })
 
@@ -118,6 +126,22 @@ const forms: {
 	),
 	exam: (setOpen, type, data, relatedData) => (
 		<ExamForm
+			type={type}
+			data={data}
+			setOpen={setOpen}
+			relatedData={relatedData}
+		/>
+	),
+	event: (setOpen, type, data, relatedData) => (
+		<EventForm
+			type={type}
+			data={data}
+			setOpen={setOpen}
+			relatedData={relatedData}
+		/>
+	),
+	announcement: (setOpen, type, data, relatedData) => (
+		<AnnouncementForm
 			type={type}
 			data={data}
 			setOpen={setOpen}

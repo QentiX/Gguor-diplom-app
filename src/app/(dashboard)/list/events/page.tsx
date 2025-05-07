@@ -1,5 +1,4 @@
 import FormContainer from '@/components/FormContainer'
-import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
@@ -115,18 +114,27 @@ const EventListPage = async ({
 
 	// ROLE CONDITIONS
 
-	const roleConditions = {
-		teacher: { lessons: { some: { teacherId: currentUserId! } } },
-		student: { students: { some: { id: currentUserId! } } },
-		coach: { lessons: { some: { coachId: currentUserId! } } },
+	switch (role) {
+		case 'admin':
+			break
+		case 'teacher':
+			query.OR = [
+				{ classId: null },
+				{ class: { supervisorId: currentUserId! } },
+			]
+			break
+		case 'student':
+			query.OR = [
+				{ classId: null },
+				{ class: { students: { some: { id: currentUserId! } } } },
+			]
+			break
+		case 'coach':
+			query.OR = [{ classId: null }]
+			break
+		default:
+			break
 	}
-
-	query.OR = [
-		{ classId: null },
-		{
-			class: roleConditions[role as keyof typeof roleConditions] || {},
-		},
-	]
 
 	const [data, count] = await prisma.$transaction([
 		prisma.event.findMany({

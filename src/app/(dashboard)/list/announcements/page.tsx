@@ -1,3 +1,4 @@
+import FormContainer from '@/components/FormContainer'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
@@ -53,14 +54,14 @@ const AnnouncementListPage = async ({
 				{new Intl.DateTimeFormat('ru').format(item.date)}
 			</td>
 			<td>
-				{/* <div className="flex items-center gap-2">
-					{role === "admin" && (
+				<div className='flex items-center gap-2'>
+					{role === 'admin' && (
 						<>
-							<FormModal table="announcement" type="update" data={item} />
-							<FormModal table="announcement" type="delete" id={item.id} />
+							<FormContainer table='announcement' type='update' data={item} />
+							<FormContainer table='announcement' type='delete' id={item.id} />
 						</>
 					)}
-				</div> */}
+				</div>
 			</td>
 		</tr>
 	)
@@ -89,18 +90,39 @@ const AnnouncementListPage = async ({
 
 	// ROLE CONDITIONS
 
-	const roleConditions = {
-		teacher: { lessons: { some: { teacherId: currentUserId! } } },
-		student: { students: { some: { id: currentUserId! } } },
-		coach: { lessons: { some: { coachId: currentUserId! } } },
+	switch (role) {
+		case 'admin':
+			break
+		case 'teacher':
+			query.OR = [
+				{ classId: null },
+				{ class: { supervisorId: currentUserId! } },
+			]
+			break
+		case 'student':
+			query.OR = [
+				{ classId: null },
+				{ class: { students: { some: { id: currentUserId! } } } },
+			]
+			break
+		case 'coach':
+			query.OR = [{ classId: null }]
+			break
+		default:
+			break
 	}
+	// const roleConditions = {
+	// 	teacher: { lessons: { some: { teacherId: currentUserId! } } },
+	// 	student: { students: { some: { id: currentUserId! } } },
+	// 	coach: { lessons: { some: { coachId: currentUserId! } } },
+	// }
 
-	query.OR = [
-		{ classId: null },
-		{
-			class: roleConditions[role as keyof typeof roleConditions] || {},
-		},
-	]
+	// query.OR = [
+	// 	{ classId: null },
+	// 	{
+	// 		class: roleConditions[role as keyof typeof roleConditions] || {},
+	// 	},
+	// ]
 
 	const [data, count] = await prisma.$transaction([
 		prisma.announcement.findMany({
@@ -140,9 +162,9 @@ const AnnouncementListPage = async ({
 								height={16}
 							/>
 						</button>
-						{/* {role === 'admin' && (
-							<FormModal table='announcement' type='create' />
-						)} */}
+						{role === 'admin' && (
+							<FormContainer table='announcement' type='create' />
+						)}
 					</div>
 				</div>
 			</div>

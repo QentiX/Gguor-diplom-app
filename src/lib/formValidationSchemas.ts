@@ -165,3 +165,24 @@ export const examSchema = z.object({
 })
 
 export type ExamSchema = z.infer<typeof examSchema>
+
+export const eventSchema = z.object({
+	id: z.coerce.number().optional(),
+	title: z.string().min(1, { message: 'Название обязательно!' }),
+	description: z.string().min(1, { message: 'Описание обязательно!' }),
+	startTime: z.coerce.date({ message: 'Требуется время начала!' }),
+	endTime: z.coerce.date({ message: 'Требуется время окончания!' }),
+	classId: z.coerce.number().optional(),
+})
+
+export type EventSchema = z.infer<typeof eventSchema>
+
+export const announcementSchema = z.object({
+	id: z.coerce.number().optional(),
+	title: z.string().min(1, { message: 'Название обязательно!' }),
+	description: z.string().min(1, { message: 'Описание обязательно!' }),
+	date: z.coerce.date({ message: 'Требуется указать дату' }),
+	classId: z.coerce.number().optional(),
+})
+
+export type AnnouncementSchema = z.infer<typeof announcementSchema>
