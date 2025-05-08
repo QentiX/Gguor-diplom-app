@@ -206,3 +206,21 @@ export const assignmentSchema = z.object({
 })
 
 export type AssignmentSchema = z.infer<typeof assignmentSchema>
+
+export const lessonSchema = z.object({
+	id: z.coerce.number().optional(),
+	name: z.string().min(1, { message: 'Требуется указать название!' }),
+	day: z.enum(
+		['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'],
+		{ message: 'Необходимо указать день недели!' }
+	),
+	startTime: z.coerce.date({ message: 'Требуется время начала!' }),
+	endTime: z.coerce.date({ message: 'Требуется время окончания!' }),
+	subjectId: z.coerce.number().optional(),
+	disciplineId: z.coerce.number().optional(),
+	teacherId: z.string().optional(),
+	coachId: z.string().optional(),
+	classId: z.coerce.number({ message: 'Необходимо указать группу!' }),
+})
+
+export type LessonSchema = z.infer<typeof lessonSchema>

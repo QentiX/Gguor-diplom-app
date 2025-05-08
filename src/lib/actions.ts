@@ -9,6 +9,7 @@ import {
 	DisciplineSchema,
 	EventSchema,
 	ExamSchema,
+	LessonSchema,
 	ResultSchema,
 	StudentSchema,
 	SubjectSchema,
@@ -1140,6 +1141,82 @@ export const deleteAssignment = async (
 		})
 
 		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const createLesson = async (
+	currentState: CurrentState,
+	data: LessonSchema
+) => {
+	try {
+		await prisma.lesson.create({
+			data: {
+				name: data.name,
+				day: data.day,
+				startTime: data.startTime,
+				endTime: data.endTime,
+				subjectId: data.subjectId || null,
+				disciplineId: data.disciplineId || null,
+				teacherId: data.teacherId || null,
+				coachId: data.coachId || null,
+				classId: data.classId,
+			},
+		})
+
+		// revalidatePath("/list/teachers");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const updateLesson = async (
+	currentState: CurrentState,
+	data: LessonSchema
+) => {
+	try {
+		await prisma.lesson.update({
+			where: {
+				id: data.id,
+			},
+			data: {
+				name: data.name,
+				day: data.day,
+				startTime: data.startTime,
+				endTime: data.endTime,
+				subjectId: data.subjectId || null,
+				disciplineId: data.disciplineId || null,
+				teacherId: data.teacherId || null,
+				coachId: data.coachId || null,
+				classId: data.classId,
+			},
+		})
+		// revalidatePath("/list/teachers");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const deleteLesson = async (
+	currentState: CurrentState,
+	data: FormData
+) => {
+	const id = data.get('id') as string
+	try {
+		await prisma.lesson.delete({
+			where: {
+				id: parseInt(id),
+			},
+		})
+
+		// revalidatePath("/list/teachers");
 		return { success: true, error: false }
 	} catch (err) {
 		console.log(err)
