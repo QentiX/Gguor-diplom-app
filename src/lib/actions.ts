@@ -4,6 +4,7 @@ import { auth, clerkClient } from '@clerk/nextjs/server'
 import {
 	AnnouncementSchema,
 	AssignmentSchema,
+	AttendanceSchema,
 	ClassSchema,
 	CoachSchema,
 	DisciplineSchema,
@@ -1217,6 +1218,137 @@ export const deleteLesson = async (
 		})
 
 		// revalidatePath("/list/teachers");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const createAttendance = async (
+	currentState: CurrentState,
+	data: AttendanceSchema
+) => {
+	const { userId, sessionClaims } = await auth()
+	const role = (sessionClaims?.metadata as { role?: string })?.role
+
+	try {
+		// if (role === 'teacher') {
+		// 	const teacherLesson = await prisma.lesson.findFirst({
+		// 		where: {
+		// 			teacherId: userId!,
+		// 			id: data.lessonId,
+		// 		},
+		// 	})
+
+		// 	if (!teacherLesson) {
+		// 		return { success: false, error: true }
+		// 	}
+		// }
+
+		// if (role === 'coach') {
+		// 	const coachLesson = await prisma.lesson.findFirst({
+		// 		where: {
+		// 			coachId: userId!,
+		// 			id: data.lessonId,
+		// 		},
+		// 	})
+
+		// 	if (!coachLesson) {
+		// 		return { success: false, error: true }
+		// 	}
+		// }
+
+		await prisma.attendance.create({
+			data: {
+				present: data.present,
+				day: data.day,
+				date: data.date,
+				studentId: data.studentId,
+				lessonId: data.lessonId,
+			},
+		})
+
+		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const updateAttendance = async (
+	currentState: CurrentState,
+	data: AttendanceSchema
+) => {
+	const { userId, sessionClaims } = await auth()
+	const role = (sessionClaims?.metadata as { role?: string })?.role
+
+	try {
+		// if (role === 'teacher') {
+		// 	const teacherLesson = await prisma.lesson.findFirst({
+		// 		where: {
+		// 			teacherId: userId!,
+		// 			id: data.lessonId,
+		// 		},
+		// 	})
+
+		// 	if (!teacherLesson) {
+		// 		return { success: false, error: true }
+		// 	}
+		// }
+
+		// if (role === 'coach') {
+		// 	const coachLesson = await prisma.lesson.findFirst({
+		// 		where: {
+		// 			coachId: userId!,
+		// 			id: data.lessonId,
+		// 		},
+		// 	})
+
+		// 	if (!coachLesson) {
+		// 		return { success: false, error: true }
+		// 	}
+		// }
+
+		await prisma.attendance.update({
+			where: {
+				id: data.id,
+			},
+			data: {
+				present: data.present,
+				day: data.day,
+				date: data.date,
+				studentId: data.studentId,
+				lessonId: data.lessonId,
+			},
+		})
+
+		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const deleteAttendance = async (
+	currentState: CurrentState,
+	data: FormData
+) => {
+	const id = data.get('id') as string
+
+	const { userId, sessionClaims } = await auth()
+	const role = (sessionClaims?.metadata as { role?: string })?.role
+
+	try {
+		await prisma.attendance.delete({
+			where: {
+				id: parseInt(id),
+			},
+		})
+
+		// revalidatePath("/list/subjects");
 		return { success: true, error: false }
 	} catch (err) {
 		console.log(err)

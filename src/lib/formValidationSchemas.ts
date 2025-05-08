@@ -224,3 +224,15 @@ export const lessonSchema = z.object({
 })
 
 export type LessonSchema = z.infer<typeof lessonSchema>
+
+export const attendanceSchema = z.object({
+	id: z.coerce.number().optional(),
+	// present: z.enum(['true', 'false'], { message: 'Необходимо указать статус!' }),
+	present: z.boolean({ message: 'Необходимо указать статус!' }),
+	day: z.coerce.number({ message: 'Требуется указать число!' }),
+	date: z.coerce.date({ message: 'Требуется указать дату!' }),
+	studentId: z.string({ message: 'Требуется указать студента!' }),
+	lessonId: z.coerce.number({ message: 'Необходимо указать занятие!' }),
+})
+
+export type AttendanceSchema = z.infer<typeof attendanceSchema>
