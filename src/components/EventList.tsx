@@ -1,7 +1,16 @@
 import prisma from '@/lib/prisma'
+import { auth } from '@clerk/nextjs/server'
 
 const EventList = async ({ dateParam }: { dateParam: string | undefined }) => {
 	const date = dateParam ? new Date(dateParam) : new Date()
+	const { userId, sessionClaims } = await auth()
+	const role = (sessionClaims?.metadata as { role?: string })?.role
+
+	const roleConditions = {
+		teacher: { lessons: { some: { teacherId: userId! } } },
+		student: { students: { some: { id: userId! } } },
+		coach: { lessons: { some: { coachId: userId! } } },
+	}
 
 	const data = await prisma.event.findMany({
 		where: {
@@ -9,6 +18,12 @@ const EventList = async ({ dateParam }: { dateParam: string | undefined }) => {
 				gte: new Date(date.setHours(0, 0, 0, 0)),
 				lte: new Date(date.setHours(23, 59, 59, 999)),
 			},
+			...(role !== 'admin' && {
+				OR: [
+					{ classId: null },
+					{ class: roleConditions[role as keyof typeof roleConditions] || {} },
+				],
+			}),
 		},
 	})
 	return data.map(event => (

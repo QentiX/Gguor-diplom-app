@@ -22,7 +22,7 @@ const menuItems = [
 				icon: '/users.svg',
 				label: 'Студенты',
 				href: '/list/students',
-				visible: ['admin', 'teacher', 'student', 'coach'],
+				visible: ['admin', 'teacher', 'coach'],
 			},
 			{
 				icon: '/users-round.svg',
@@ -125,7 +125,7 @@ const Menu = async () => {
 											? item.href + role
 											: item.href
 									}
-								  // href={item.href}
+									// href={item.href}
 									key={item.label}
 									className='flex items-center justify-center lg:justify-start gap-4 py-2 md:px-2 hover:bg-[#B3E2FD]'
 								>

@@ -17,12 +17,6 @@ const Navbar = async () => {
 			</div>
 			{/* ICONS AND USER */}
 			<div className='flex items-center gap-6 justify-end w-full'>
-				<div className='bg-white rounded-full w-7 h-7 flex items-center justify-center cursor-pointer relative'>
-					<Image src='/bell.svg' alt='bell' width={20} height={20} />
-					<div className='absolute -top-3 -right-3 w-5 h-5 flex items-center justify-center bg-[#6ECBF4] text-white rounded-full text-xs'>
-						1
-					</div>
-				</div>
 				<div className='flex flex-col'>
 					<span className='text-xs leading-3 font-medium'>
 						{user?.fullName}
@@ -31,7 +25,15 @@ const Navbar = async () => {
 						{user?.publicMetadata?.role as string}
 					</span>
 				</div>
-				<UserButton />
+				<UserButton>
+					{/* <UserButton.MenuItems>
+						<UserButton.Link
+							label='Профиль'
+							labelIcon='/public/circle-user-round.svg'
+							href='/list/events'
+						/>
+					</UserButton.MenuItems> */}
+				</UserButton>
 			</div>
 		</div>
 	)
