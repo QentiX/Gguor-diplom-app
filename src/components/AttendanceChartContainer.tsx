@@ -3,17 +3,27 @@ import AttendanceChart from './AttendanceChart'
 
 const AttendanceChartContainer = async () => {
 	const today = new Date()
-	const dayOfWeek = today.getDay()
-	const daysSinceMonday = dayOfWeek === 0 ? 7 : dayOfWeek - 1
+	const todayUTC = new Date(
+		Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())
+	)
 
-	const lastMonday = new Date(today)
+	// Определяем начало текущей недели (понедельник 00:00:00 UTC)
+	const dayOfWeekUTC = todayUTC.getUTCDay() // 0-6 (вс-сб)
+	const daysSinceMonday = dayOfWeekUTC === 0 ? 6 : dayOfWeekUTC - 1
+	const startOfWeekUTC = new Date(todayUTC)
+	startOfWeekUTC.setUTCDate(todayUTC.getUTCDate() - daysSinceMonday)
+	startOfWeekUTC.setUTCHours(0, 0, 0, 0)
 
-	lastMonday.setDate(today.getDate() - daysSinceMonday)
+	// Определяем конец недели (суббота 23:59:59.999 UTC)
+	const endOfWeekUTC = new Date(startOfWeekUTC)
+	endOfWeekUTC.setUTCDate(startOfWeekUTC.getUTCDate() + 5)
+	endOfWeekUTC.setUTCHours(23, 59, 59, 999)
 
 	const resData = await prisma.attendance.findMany({
 		where: {
 			date: {
-				gte: lastMonday,
+				gte: startOfWeekUTC,
+				lte: endOfWeekUTC,
 			},
 		},
 		select: {
@@ -24,23 +34,18 @@ const AttendanceChartContainer = async () => {
 
 	const daysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
 
-	const attendanceMap: {
-		[key: string]: { present: number; absent: number }
-	} = {
-		Пн: { present: 0, absent: 0 },
-		Вт: { present: 0, absent: 0 },
-		Ср: { present: 0, absent: 0 },
-		Чт: { present: 0, absent: 0 },
-		Пт: { present: 0, absent: 0 },
-		Сб: { present: 0, absent: 0 },
-	}
+	const attendanceMap = daysOfWeek.reduce((acc, day) => {
+		acc[day] = { present: 0, absent: 0 }
+		return acc
+	}, {} as Record<string, { present: number; absent: number }>)
 
 	resData.forEach(item => {
 		const itemDate = new Date(item.date)
-		const dayOfWeek = itemDate.getDay()
+		const dayOfWeekUTC = itemDate.getUTCDay()
 
-		if (dayOfWeek >= 1 && dayOfWeek <= 6) {
-			const dayName = daysOfWeek[dayOfWeek - 1]
+		if (dayOfWeekUTC >= 1 && dayOfWeekUTC <= 6) {
+			const dayIndex = dayOfWeekUTC - 1
+			const dayName = daysOfWeek[dayIndex]
 
 			if (item.present) {
 				attendanceMap[dayName].present += 1
@@ -55,9 +60,6 @@ const AttendanceChartContainer = async () => {
 		present: attendanceMap[day].present,
 		absent: attendanceMap[day].absent,
 	}))
-
-	console.log(data);
-	
 
 	return <AttendanceChart data={data} />
 }

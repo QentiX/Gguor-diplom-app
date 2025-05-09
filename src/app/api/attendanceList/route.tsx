@@ -1,13 +1,42 @@
 import prisma from '@/lib/prisma'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: Request) {
-	const { searchParams } = new URL(req.url)
+export async function POST(req: NextRequest) {
+	const { month, year } = await req.json()
 
-	const selectedId = searchParams.get('')
+	if (!month || !year) {
+		return NextResponse.json({ error: 'Invalid parameters' }, { status: 400 })
+	}
 
+	const attendanceRecords = await prisma.attendance.findMany({
+		where: {
+			date: {
+				gte: new Date(year, month - 1, 1),
+				lt: new Date(year, month, 1),
+			},
+		},
+		select: {
+			date: true,
+			present: true,
+			studentId: true,
+		},
+	})
 
-	const attendanceData = await prisma.attendance.findMany();
+	const presentCount = attendanceRecords.filter(a => a.present).length
+	const absentCount = attendanceRecords.length - presentCount
 
-	return NextResponse.json(attendanceData)
+	const chartData = [
+		{
+			attendance: 'present',
+			visitors: presentCount,
+			fill: 'var(--color-present)',
+		},
+		{
+			attendance: 'absent',
+			visitors: absentCount,
+			fill: 'var(--color-absent)',
+		},
+	]
+
+	return NextResponse.json({ chartData })
 }

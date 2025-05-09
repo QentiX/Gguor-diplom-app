@@ -14,11 +14,20 @@ import moment from 'moment'
 import 'moment/locale/ru'
 import { useState } from 'react'
 
-const MonthSelection = ({ selectedMonth }: { selectedMonth: any }) => {
-	const today = new Date()
+type MonthSelectionProps = {
+  onChange: (month: number, year: number) => void
+}
 
-	const nextMonths = addMonths(new Date(), 0)
-	const [month, setMonth] = useState(nextMonths)
+const MonthSelection = ({ onChange  }: MonthSelectionProps) => {
+	const today = new Date()
+  const [selectedDate, setSelectedDate] = useState<Date>(addMonths(today, 0))
+
+  const handleMonthChange = (date: Date) => {
+    setSelectedDate(date)
+    const selectedMonth = date.getMonth() + 1 // 0-indexed → 1-indexed
+    const selectedYear = date.getFullYear()
+    onChange(selectedMonth, selectedYear)
+  }
 
 	return (
 		<div className=''>
@@ -26,18 +35,15 @@ const MonthSelection = ({ selectedMonth }: { selectedMonth: any }) => {
 				<PopoverTrigger asChild>
 					<Button variant={'outline'} className='text-sm font-normal'>
 						<CalendarIcon className='h-5 w-5' strokeWidth={1.7} />
-						{moment(month).locale('ru').format('MMM yyyy')}
+						{moment(selectedDate).locale('ru').format('MMMM YYYY')}
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent className='w-auto p-0'>
 					<Calendar
 						mode='single'
 						locale={ru}
-						month={month}
-						onMonthChange={value => {
-							selectedMonth(value)
-							setMonth(value)
-						}}
+						month={selectedDate}
+						onMonthChange={handleMonthChange}
 						initialFocus
 					/>
 				</PopoverContent>

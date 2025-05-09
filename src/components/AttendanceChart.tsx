@@ -34,39 +34,9 @@ const AttendanceChart = ({
 	data: { name: string; present: number; absent: number }[]
 }) => {
 	return (
-		// <div className='bg-white rounded-md p-4 pb-10 h-full '>
-		// 	<div className='flex justify-between items-center'>
-		// 		<h1 className='text-lg font-semibold mb-2'>Посещаемость</h1>
-		// 	</div>
-		// 	<ResponsiveContainer width='100%' height='100%'>
-		// 		<BarChart
-		// 			width={500}
-		// 			height={300}
-		// 			data={data}
-		// 			margin={{
-		// 				top: 5,
-		// 				right: 30,
-		// 				left: 20,
-		// 				bottom: 5,
-		// 			}}
-		// 		>
-		// 			<CartesianGrid strokeDasharray='3 3' />
-		// 			<XAxis dataKey='name' />
-		// 			<YAxis />
-		// 			<Tooltip contentStyle={{borderRadius: '5px'}}/>
-		// 			<Legend />
-		// 			<Bar dataKey='present' fill='#0A3470' />
-		// 			<Bar dataKey='absent' fill='#3E5DDB' />
-		// 		</BarChart>
-		// 	</ResponsiveContainer>
-
-		// </div>
 		<Card>
 			<CardHeader>
-				<CardTitle>Посещаемость</CardTitle>
-				<CardDescription>
-					Показывает информацию за текущую неделю
-				</CardDescription>
+				<CardTitle>Посещаемость за текущую неделю</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<ChartContainer config={chartConfig}>
