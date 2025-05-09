@@ -93,9 +93,6 @@ const AttendanceMonthAdminChart = ({
 							dataKey='visitors'
 							nameKey='attendance'
 							innerRadius={60}
-							isAnimationActive={true}
-							animationDuration={500}
-							key={`pie-${chartData.length}`}
 						/>
 						<ChartLegend content={<ChartLegendContent />} />
 					</PieChart>

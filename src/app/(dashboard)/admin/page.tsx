@@ -19,6 +19,8 @@ const AdminPage = async ({
 					<UserCard type='студент' />
 					<UserCard type='учителя' />
 					<UserCard type='тренер' />
+					<UserCard type='класс' />
+					<UserCard type='занятий' />
 				</div>
 				{/* MIDDLE CHARTS */}
 				<AttendanceChartContainer />
