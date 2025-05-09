@@ -1,5 +1,5 @@
 import Announcements from '@/components/Announcements'
-import AttendanceChart from '@/components/AttendanceChart'
+import AttendanceChartContainer from '@/components/AttendanceChartContainer'
 import EventCalendarContainer from '@/components/EventCalendarContainer'
 import UserCard from '@/components/UserCard'
 
@@ -22,7 +22,7 @@ const AdminPage = async ({
 				{/* MIDDLE CHARTS */}
 				<div className='w-full h-[510px]'>
 					{/* ATTENDANCE CHART */}
-					<AttendanceChart />
+					<AttendanceChartContainer />
 				</div>
 			</div>
 			{/* RIGHT */}
