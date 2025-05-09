@@ -39,34 +39,54 @@ const AttendanceMonthAdminChartContainer = () => {
 	// 		fill: 'var(--color-absent)',
 	// 	},
 	// ]
-	const [month, setMonth] = useState<number>(new Date().getMonth() + 1)
-	const [year, setYear] = useState<number>(new Date().getFullYear())
+	// const [month, setMonth] = useState<number>(new Date().getMonth() + 1)
+	// const [year, setYear] = useState<number>(new Date().getFullYear())
 	const [chartData, setChartData] = useState<
 		{ attendance: string; visitors: number; fill: string }[]
 	>([])
+	const [exportData, setExportData] = useState<any[]>([])
+	const [selectedMonth, setSelectedMonth] = useState<number>(
+		new Date().getMonth() + 1
+	)
+	const [selectedYear, setSelectedYear] = useState<number>(
+		new Date().getFullYear()
+	)
 
 	useEffect(() => {
 		const fetchData = async () => {
+			// Загрузка данных для графика
 			const res = await fetch('/api/attendanceList', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ month, year }),
+				body: JSON.stringify({ month: selectedMonth, year: selectedYear }),
 			})
 			const data = await res.json()
 			setChartData(data.chartData)
+
+			// Загрузка данных для экспорта
+			const resExport = await fetch('/api/attendanceDetails', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ month: selectedMonth, year: selectedYear }),
+			})
+			const exportData = await resExport.json()
+			setExportData(exportData.data)
 		}
 
 		fetchData()
-	}, [month, year])
+	}, [selectedMonth, selectedYear])
 
 	return (
 		<AttendanceMonthAdminChart
 			chartData={chartData}
+			exportData={exportData}
+			selectedMonth={selectedMonth}
+			selectedYear={selectedYear}
 			onMonthChange={(m, y) => {
-				setMonth(m)
-				setYear(y)
+				setSelectedMonth(m)
+				setSelectedYear(y)
 			}}
 		/>
 	)

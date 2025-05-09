@@ -8,27 +8,27 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover'
 import { addMonths } from 'date-fns'
-import { ru } from "date-fns/locale"
+import { ru } from 'date-fns/locale'
 import { CalendarIcon } from 'lucide-react'
 import moment from 'moment'
 import 'moment/locale/ru'
 import { useState } from 'react'
 
 type MonthSelectionProps = {
-  onChange: (month: number, year: number) => void
+	onChange: (month: number, year: number) => void
 }
 
-const MonthSelection = ({ onChange  }: MonthSelectionProps) => {
+const MonthSelection = ({ onChange }: MonthSelectionProps) => {
 	const today = new Date()
-  const [selectedDate, setSelectedDate] = useState<Date>(addMonths(today, 0))
+	const [selectedDate, setSelectedDate] = useState<Date>(addMonths(today, 0))
 
-  const handleMonthChange = (date: Date) => {
-    setSelectedDate(date)
-    const selectedMonth = date.getMonth() + 1 // 0-indexed → 1-indexed
-    const selectedYear = date.getFullYear()
-    onChange(selectedMonth, selectedYear)
-  }
-
+	// Правильное имя функции
+	const handleMonthChange = (date: Date) => {
+		setSelectedDate(date)
+		const selectedMonth = date.getMonth() + 1
+		const selectedYear = date.getFullYear()
+		onChange(selectedMonth, selectedYear) // Используем переданный пропс
+	}
 	return (
 		<div className=''>
 			<Popover>
@@ -38,7 +38,12 @@ const MonthSelection = ({ onChange  }: MonthSelectionProps) => {
 						{moment(selectedDate).locale('ru').format('MMMM YYYY')}
 					</Button>
 				</PopoverTrigger>
-				<PopoverContent className='w-auto p-0'>
+				<PopoverContent
+					className='w-auto p-0'
+					side='bottom'
+					align='start'
+					avoidCollisions={false}
+				>
 					<Calendar
 						mode='single'
 						locale={ru}
