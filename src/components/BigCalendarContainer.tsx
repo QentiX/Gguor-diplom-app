@@ -8,6 +8,7 @@ import {
 	Subject,
 	Teacher,
 } from '@prisma/client'
+import { endOfWeek, startOfWeek } from 'date-fns'
 import BigCalendar from './BigCalender'
 import { ExportScheduleButton } from './ExportScheduleButton'
 
@@ -30,14 +31,25 @@ const BigCalendarContainer = async ({
 	type: 'teacherId' | 'classId' | 'coachId'
 	id: string | number
 }) => {
-	// Получение занятий
+	const now = new Date()
+	const weekStart = startOfWeek(now, { weekStartsOn: 1 })
+	const weekEnd = endOfWeek(now, { weekStartsOn: 1 })
+
 	const lessons = (await prisma.lesson.findMany({
 		where: {
-			...(type === 'teacherId'
-				? { teacherId: id as string }
-				: type === 'coachId'
-				? { coachId: id as string }
-				: { classId: id as number }),
+			AND: [
+				{
+					...(type === 'teacherId'
+						? { teacherId: id as string }
+						: type === 'coachId'
+						? { coachId: id as string }
+						: { classId: id as number }),
+				},
+				{
+					startTime: { gte: weekStart },
+					endTime: { lte: weekEnd },
+				},
+			],
 		},
 		include: {
 			subject: true,
@@ -48,9 +60,14 @@ const BigCalendarContainer = async ({
 		},
 	})) as LessonWithRelations[]
 
-	// Получение экзаменов
 	const exams = (await prisma.exam.findMany({
-		where: { lessonId: { in: lessons.map(l => l.id) } },
+		where: {
+			AND: [
+				{ lessonId: { in: lessons.map(l => l.id) } },
+				{ startTime: { gte: weekStart } },
+				{ endTime: { lte: weekEnd } },
+			],
+		},
 		include: {
 			lesson: {
 				include: {
@@ -60,19 +77,12 @@ const BigCalendarContainer = async ({
 		},
 	})) as ExamWithRelations[]
 
-	// Определение типа пользователя
 	const userType =
 		type === 'teacherId' ? 'teacher' : type === 'coachId' ? 'coach' : 'student'
 
 	return (
 		<div className='space-y-4'>
-			<ExportScheduleButton
-					data={{
-						type: userType,
-						lessons,
-						exams,
-					}}
-				/>
+			<ExportScheduleButton data={{ type: userType, lessons, exams }} />
 			<BigCalendar
 				data={lessons.map(lesson => ({
 					title: lesson.name,

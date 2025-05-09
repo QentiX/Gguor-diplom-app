@@ -10,6 +10,7 @@ import {
 	Subject,
 	Teacher,
 } from '@prisma/client'
+import { getWeek } from 'date-fns'
 import { ArrowDownToLine } from 'lucide-react'
 import * as XLSX from 'xlsx'
 
@@ -44,7 +45,7 @@ export const ExportScheduleButton = ({ data }: { data: ScheduleData }) => {
 			Дисциплина:
 				lesson.subject?.name || lesson.disciplines?.name || lesson.name,
 			'Тип занятия': lesson.name.match(/\((ЛК|ЛР|ПЗ)\)/)?.[1] || 'Занятие',
-			Группа: lesson.class?.name || 'Не указана',
+			Аудитория: lesson.class?.name || 'Не указана',
 			Преподаватель: lesson.teacher
 				? `${lesson.teacher.surname} ${lesson.teacher.name}`
 				: lesson.coach
@@ -72,6 +73,7 @@ export const ExportScheduleButton = ({ data }: { data: ScheduleData }) => {
 
 	const handleExport = () => {
 		const workbook = XLSX.utils.book_new()
+		const weekNumber = getWeek(new Date(), { weekStartsOn: 1 })
 
 		// Лист с занятиями
 		const lessonsSheet = XLSX.utils.json_to_sheet(formatLessonData())
@@ -82,14 +84,12 @@ export const ExportScheduleButton = ({ data }: { data: ScheduleData }) => {
 		XLSX.utils.book_append_sheet(workbook, examsSheet, 'Экзамены')
 
 		// Сохранение файла
-		const fileName = `Расписание_${data.type}_${new Date()
-			.toISOString()
-			.slice(0, 10)}.xlsx`
+		const fileName = `Расписание_${data.type}_Неделя_${weekNumber}.xlsx`
 		XLSX.writeFile(workbook, fileName)
 	}
 
 	return (
-		<Button onClick={handleExport} variant='outline' className='mb-4 align-middle'>
+		<Button onClick={handleExport} variant='outline' className='mb-4'>
 			<ArrowDownToLine size={20} />
 		</Button>
 	)
