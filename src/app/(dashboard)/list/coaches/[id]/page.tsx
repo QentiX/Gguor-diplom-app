@@ -1,12 +1,15 @@
 import Announcements from '@/components/Announcements'
 import BigCalendarContainer from '@/components/BigCalendarContainer'
+import CoachAttendanceStats from '@/components/CoachAttendanceStats'
 import FormContainer from '@/components/FormContainer'
+import PerformanceCoachChartContainer from '@/components/PerformanceCoachChartContainer'
 import prisma from '@/lib/prisma'
 import { auth } from '@clerk/nextjs/server'
 import { Coach } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 
 const SingleCoachPage = async ({
 	params: { id },
@@ -95,10 +98,9 @@ const SingleCoachPage = async ({
 								height={24}
 								className='w-6 h-6'
 							/>
-							<div className=''>
-								<h1 className='text-xl font-semibold'>90%</h1>
-								<span className='text-sm text-gray-400'>Посещаемость</span>
-							</div>
+							<Suspense fallback='загрузка...'>
+								<CoachAttendanceStats coachId={coach.id} />
+							</Suspense>
 						</div>
 						{/* CARD */}
 						<div className='bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]'>
@@ -179,7 +181,7 @@ const SingleCoachPage = async ({
 						</Link>
 					</div>
 				</div>
-				{/* <Performance /> */}
+				<PerformanceCoachChartContainer coachId={coach.id} />
 				<Announcements />
 			</div>
 		</div>
