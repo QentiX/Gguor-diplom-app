@@ -1,6 +1,7 @@
 import Announcements from '@/components/Announcements'
 import AttendanceChartContainer from '@/components/AttendanceChartContainer'
 import AttendanceMonthAdminChartContainer from '@/components/AttendanceMonthAdminChartContainer'
+import AverageScoreAdminChartContainer from '@/components/AverageScoreAdminChartContainer'
 import EventCalendarContainer from '@/components/EventCalendarContainer'
 import UserCard from '@/components/UserCard'
 
@@ -20,9 +21,10 @@ const AdminPage = async ({
 					<UserCard type='учителя' />
 					<UserCard type='тренер' />
 					<UserCard type='класс' />
-					<UserCard type='занятий' />
+					<UserCard type='занятия' />
 				</div>
 				{/* MIDDLE CHARTS */}
+				<AverageScoreAdminChartContainer />
 				<AttendanceChartContainer />
 				<AttendanceMonthAdminChartContainer />
 			</div>

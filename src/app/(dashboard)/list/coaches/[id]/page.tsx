@@ -151,7 +151,7 @@ const SingleCoachPage = async ({
 					</div>
 				</div>
 				{/* BOTTOM */}
-				<div className='mt-4 bg-white rounded-md p-4 h-[800px]'>
+				<div className='mt-4 bg-white rounded-md p-4 h-[830px]'>
 					<h1 className='text-xl font-semibold'>Расписание</h1>
 					<BigCalendarContainer type='coachId' id={coach.id} />
 				</div>
