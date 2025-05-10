@@ -3,6 +3,7 @@ import AttendanceChartContainer from '@/components/AttendanceChartContainer'
 import AttendanceMonthAdminChartContainer from '@/components/AttendanceMonthAdminChartContainer'
 import AverageScoreAdminChartContainer from '@/components/AverageScoreAdminChartContainer'
 import EventCalendarContainer from '@/components/EventCalendarContainer'
+import { RatingStudetnsAdminChartContainer } from '@/components/RatingStudetnsAdminChartContainer'
 import UserCard from '@/components/UserCard'
 
 const AdminPage = async ({
@@ -27,6 +28,7 @@ const AdminPage = async ({
 				<AverageScoreAdminChartContainer />
 				<AttendanceChartContainer />
 				<AttendanceMonthAdminChartContainer />
+				<RatingStudetnsAdminChartContainer />
 			</div>
 			{/* RIGHT */}
 			<div className='w-full lg:w-1/3 flex flex-col gap-8'>
