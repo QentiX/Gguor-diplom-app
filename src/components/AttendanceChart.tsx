@@ -14,7 +14,7 @@ import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 const chartConfig = {
 	present: {
 		label: 'Присутствует',
-		color: '#2563EB',
+		color: '#3E5DDB',
 	},
 	absent: {
 		label: 'Отсутствует',

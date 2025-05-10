@@ -32,6 +32,7 @@ const TeacherForm = ({
 	})
 
 	const [img, setImg] = useState<any>()
+	const [previewImage, setPreviewImage] = useState(data?.img || '')
 
 	const [state, formAction] = useFormState(
 		type === 'create' ? createTeacher : updateTeacher,
@@ -42,7 +43,6 @@ const TeacherForm = ({
 	)
 
 	const onSubmit = handleSubmit(data => {
-		console.log(data)
 		formAction({ ...data, img: img?.secure_url })
 	})
 
@@ -55,6 +55,18 @@ const TeacherForm = ({
 			router.refresh()
 		}
 	}, [state, router, type, setOpen])
+
+	useEffect(() => {
+		if (data?.img) {
+			setPreviewImage(data.img)
+		}
+	}, [data])
+
+	const handleUploadSuccess = (result: any, { widget }: { widget: any }) => {
+		setImg(result.info)
+		setPreviewImage(result.info.secure_url)
+		widget.close()
+	}
 
 	const { subjects } = relatedData
 
@@ -190,15 +202,12 @@ const TeacherForm = ({
 						</p>
 					)}
 				</div>
-				<CldUploadWidget
-					uploadPreset='school'
-					onSuccess={(result, { widget }) => {
-						setImg(result.info)
-						widget.close()
-					}}
-				>
-					{({ open }) => {
-						return (
+				<div className='flex gap-8 items-center'>
+					<CldUploadWidget
+						uploadPreset='school'
+						onSuccess={handleUploadSuccess}
+					>
+						{({ open }) => (
 							<div
 								className='text-xs text-gray-500 flex items-center gap-2 cursor-pointer'
 								onClick={() => open()}
@@ -206,9 +215,20 @@ const TeacherForm = ({
 								<Image src='/upload.png' alt='' width={28} height={28} />
 								<span>Загрузить фотографию</span>
 							</div>
-						)
-					}}
-				</CldUploadWidget>
+						)}
+					</CldUploadWidget>
+
+					{previewImage && (
+						<Image
+							src={`${previewImage}?ts=${Date.now()}`}
+							alt='Preview'
+							width={100}
+							height={100}
+							key={previewImage}
+							onError={() => setPreviewImage('/no-profile-picture.svg')}
+						/>
+					)}
+				</div>
 			</div>
 			{state.error && (
 				<span className='text-red-500'>Что-то пошло не так!</span>

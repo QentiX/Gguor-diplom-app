@@ -32,6 +32,7 @@ const StudentForm = ({
 	})
 
 	const [img, setImg] = useState<any>()
+	const [previewImage, setPreviewImage] = useState(data?.img || '')
 
 	const [state, formAction] = useFormState(
 		type === 'create' ? createStudent : updateStudent,
@@ -55,6 +56,18 @@ const StudentForm = ({
 			router.refresh()
 		}
 	}, [state, router, type, setOpen])
+
+	useEffect(() => {
+		if (data?.img) {
+			setPreviewImage(data.img)
+		}
+	}, [data])
+
+	const handleUploadSuccess = (result: any, { widget }: { widget: any }) => {
+		setImg(result.info)
+		setPreviewImage(result.info.secure_url)
+		widget.close()
+	}
 
 	const { grades, classes } = relatedData
 
@@ -93,15 +106,9 @@ const StudentForm = ({
 			<span className='text-xs text-gray-400 font-medium'>
 				Персональная информация
 			</span>
-			<CldUploadWidget
-				uploadPreset='school'
-				onSuccess={(result, { widget }) => {
-					setImg(result.info)
-					widget.close()
-				}}
-			>
-				{({ open }) => {
-					return (
+			<div className='flex gap-8 items-center'>
+				<CldUploadWidget uploadPreset='school' onSuccess={handleUploadSuccess}>
+					{({ open }) => (
 						<div
 							className='text-xs text-gray-500 flex items-center gap-2 cursor-pointer'
 							onClick={() => open()}
@@ -109,9 +116,20 @@ const StudentForm = ({
 							<Image src='/upload.png' alt='' width={28} height={28} />
 							<span>Загрузить фотографию</span>
 						</div>
-					)
-				}}
-			</CldUploadWidget>
+					)}
+				</CldUploadWidget>
+
+				{previewImage && (
+					<Image
+						src={`${previewImage}?ts=${Date.now()}`}
+						alt='Preview'
+						width={100}
+						height={100}
+						key={previewImage}
+						onError={() => setPreviewImage('/no-profile-picture.svg')}
+					/>
+				)}
+			</div>
 			<div className='flex justify-between flex-wrap gap-4'>
 				<InputField
 					label='Имя'
