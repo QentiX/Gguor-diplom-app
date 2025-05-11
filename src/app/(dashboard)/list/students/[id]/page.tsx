@@ -1,7 +1,7 @@
 import Announcements from '@/components/Announcements'
 import BigCalendarContainer from '@/components/BigCalendarContainer'
+import ExportStudentReportButton from '@/components/ExportAllInfoStudentWord'
 import FormContainer from '@/components/FormContainer'
-import { PerfomanceAdminChart } from '@/components/PerfomanceAdminChart'
 import PerfomanceAdminChartContainer from '@/components/PerfomanceAdminChartContainer'
 import StudentAttendanceCard from '@/components/StudentAttendanceCard'
 import prisma from '@/lib/prisma'
@@ -57,7 +57,17 @@ const SingleStudentPage = async ({
 									{student.name + ' ' + student.surname}
 								</h1>
 								{role === 'admin' && (
-									<FormContainer table='student' type='update' data={student} />
+									<div className='flex items-center gap-2'>
+										<FormContainer
+											table='student'
+											type='update'
+											data={student}
+										/>
+										<ExportStudentReportButton
+											studentId={student.id}
+											studentName={`${student.name}_${student.surname}`}
+										/>
+									</div>
 								)}
 							</div>
 							<p className='text-sm text-gray-500'>{student.status || '-'}</p>
@@ -94,9 +104,9 @@ const SingleStudentPage = async ({
 								height={24}
 								className='w-6 h-6'
 							/>
-							<Suspense fallback="загрузка...">
-                <StudentAttendanceCard id={student.id} />
-              </Suspense>
+							<Suspense fallback='загрузка...'>
+								<StudentAttendanceCard id={student.id} />
+							</Suspense>
 						</div>
 						{/* CARD */}
 						<div className='bg-white p-4 rounded-xl shadow-lg flex gap-4 w-full md:w-[48%] xl:w-[48%] 2xl:w-[48%]'>
