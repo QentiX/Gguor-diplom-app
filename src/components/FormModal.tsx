@@ -208,9 +208,9 @@ const FormModal = ({
 	const size = type === 'create' ? 'w-8 h-8' : 'w-7 h-7'
 	const bgColor =
 		type === 'create'
-			? 'bg-[#B3E2FD]'
+			? 'bg-[#3780D2]'
 			: type === 'update'
-			? 'bg-[#B3E2FD]'
+			? 'bg-[#3780D2]'
 			: 'bg-[#F54162]'
 
 	const [open, setOpen] = useState(false)
@@ -238,7 +238,7 @@ const FormModal = ({
 					Все данные будут потеряны. Вы уверены, что хотите удалить данный
 					элемент?
 				</span>
-				<button className='bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center'>
+				<button className='bg-red-700 text-white py-2 px-4 rounded-xl border-none w-max self-center'>
 					Удалить
 				</button>
 			</form>
@@ -259,7 +259,7 @@ const FormModal = ({
 			</button>
 			{open && (
 				<div className='w-screen h-screen absolute left-0 top-0 bg-black bg-opacity-60 z-50 flex items-center justify-center'>
-					<div className='bg-white p-4 rounded-md relative w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]'>
+					<div className='bg-white p-4 rounded-xl relative w-[90%] md:w-[70%] md:top-8 lg:w-[78%] xl:w-[78%] 2xl:w-[40%]'>
 						<Form />
 						<div
 							className='absolute top-4 right-4 cursor-pointer'

@@ -32,7 +32,7 @@ type Props = {
 const chartConfig = {
   average: {
     label: "Средний балл",
-    color: "#2563EB",
+    color: "#0A3470",
   },
 } satisfies ChartConfig
 
@@ -59,7 +59,7 @@ export function AverageScoreAdminChart({
   onChartChange
 }: Props) {
   return (
-    <Card>
+    <Card className='shadow-md border-none'>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Академическая успеваемость</CardTitle>

@@ -29,7 +29,7 @@ const UserCard = async ({
 		// 		{type === 'учителя' ? type : type + 'ы'}
 		// 	</h2>
 		// </div>
-		<div className='rounded-lg odd:bg-[#fff] even:bg-[#f3f3f3] p-4 flex-1 h-24 shadow-lg'>
+		<div className='rounded-xl odd:bg-[#fff] even:bg-[#f3f3f3] p-4 flex-1 h-24 shadow-lg'>
 			<h2 className='capitalize text-sm font-medium text-gray-600 '>
 				{type === 'учителя' ? type : type === 'занятия' ? type : type + 'ы'}
 			</h2>

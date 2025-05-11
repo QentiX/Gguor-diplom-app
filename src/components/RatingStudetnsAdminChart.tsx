@@ -27,22 +27,22 @@ interface RatingChartProps {
 const chartConfig = {
 	average: {
 		label: 'Средний балл',
-		color: '#2563EB',
+		color: '#0A3470',
 	},
 	label: {
-		color: 'hsl(var(--background))',
+		color: '#0A3470',
 	},
 } satisfies ChartConfig
 
 export function RatingStudetnsAdminChart({ data }: RatingChartProps) {
 	return (
-		<Card>
+		<Card className='shadow-lg border-none'>
 			<CardHeader>
 				<CardTitle>Лучшие студенты по среднему баллу</CardTitle>
 				<CardDescription>Показатели за последние 6 месяцев</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<ChartContainer config={chartConfig}>
+				<ChartContainer config={chartConfig} className='max-h-[500px]'>
 					<BarChart
 						width={800}
 						height={400}
@@ -68,13 +68,8 @@ export function RatingStudetnsAdminChart({ data }: RatingChartProps) {
 							cursor={false}
 							content={<ChartTooltipContent indicator='line' />}
 						/>
-						<Bar dataKey='average' fill='#2563EB' radius={4}>
-							<LabelList
-								dataKey='average'
-								position='right'
-								fill='hsl(var(--foreground))'
-								fontSize={12}
-							/>
+						<Bar dataKey='average' fill='#0A3470' radius={4}>
+							<LabelList dataKey='average' position='right' fontSize={12} />
 						</Bar>
 					</BarChart>
 				</ChartContainer>

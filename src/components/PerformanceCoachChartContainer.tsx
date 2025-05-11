@@ -30,9 +30,9 @@ const PerformanceCoachChartContainer = ({ coachId }: { coachId: string }) => {
 		fetchData()
 	}, [coachId])
 
-	if (loading) return <div>Загрузка данных...</div>
+	// if (loading) return <div>Загрузка данных...</div>
 
-	return <PerformansCoachChart data={chartData} />
+	return <PerformansCoachChart data={chartData} loading={loading}/>
 }
 
 export default PerformanceCoachChartContainer

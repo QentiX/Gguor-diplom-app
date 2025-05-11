@@ -26,8 +26,14 @@ const AdminPage = async ({
 				</div>
 				{/* MIDDLE CHARTS */}
 				<AverageScoreAdminChartContainer />
-				<AttendanceChartContainer />
-				<AttendanceMonthAdminChartContainer />
+				<div className='flex gap-3 justify-between flex-wrap'>
+					<div className='flex-1'>
+						<AttendanceChartContainer />
+					</div>
+					<div className='flex-1'>
+						<AttendanceMonthAdminChartContainer />
+					</div>
+				</div>
 				<RatingStudetnsAdminChartContainer />
 			</div>
 			{/* RIGHT */}

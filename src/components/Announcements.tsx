@@ -24,7 +24,7 @@ const Announcements = async () => {
 		},
 	})
 	return (
-		<div className='bg-white p-4 rounded-md'>
+		<div className='bg-white p-4 rounded-xl shadow-lg'>
 			<div className='flex items-center justify-between'>
 				<h1 className='text-xl font-semibold'>Объявления</h1>
 				<Link href={'/list/announcements'}>
@@ -33,7 +33,7 @@ const Announcements = async () => {
 			</div>
 			<div className='flex flex-col gap-4 mt-4'>
 				{data[0] && (
-					<div className='bg-[#0A3470] rounded-md p-4'>
+					<div className='bg-[#0A3470] rounded-xl p-4 shadow-md'>
 						<div className='flex items-center justify-between'>
 							<h2 className='font-semibold text-white'>{data[0].title}</h2>
 							<span className='text-xs font-semibold bg-white rounded-md px-1 py-1'>
@@ -44,7 +44,7 @@ const Announcements = async () => {
 					</div>
 				)}
 				{data[1] && (
-					<div className='bg-[#3E5DDB] rounded-md p-4'>
+					<div className='bg-[#3780D2] rounded-xl p-4 shadow-md'>
 						<div className='flex items-center justify-between'>
 							<h2 className='font-semibold text-white'>{data[1].title}</h2>
 							<span className='text-xs font-semibold bg-white rounded-md px-1 py-1'>
@@ -55,7 +55,7 @@ const Announcements = async () => {
 					</div>
 				)}
 				{data[2] && (
-					<div className='bg-[#0A3470] rounded-md p-4'>
+					<div className='bg-[#0A3470] rounded-xl p-4 shadow-md'>
 						<div className='flex items-center justify-between'>
 							<h2 className='font-semibold text-white'>{data[2].title}</h2>
 							<span className='text-xs font-semibold bg-white rounded-md px-1 py-1'>

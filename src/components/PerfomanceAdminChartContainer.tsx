@@ -50,9 +50,9 @@ const PerfomanceAdminChartContainer = ({
 		fetchData()
 	}, [studentId])
 
-	if (loading) return <div>Загрузка данных...</div>
+	// if (loading) return <div>Загрузка данных...</div>
 
-	return <PerfomanceAdminChart data={chartData} />
+	return <PerfomanceAdminChart data={chartData} loading={loading}/>
 }
 
 export default PerfomanceAdminChartContainer

@@ -25,13 +25,19 @@ type ChartDataType = {
 const chartConfig = {
 	count: {
 		label: 'Кол-во занятий',
-		color: '#2563EB',
+		color: '#0A3470',
 	},
 } satisfies ChartConfig
 
-export function PerformanceTeacherChart({ data }: { data: ChartDataType[] }) {
+export function PerformanceTeacherChart({
+	data,
+	loading,
+}: {
+	data: ChartDataType[]
+	loading: boolean
+}) {
 	return (
-		<Card>
+		<Card className='shadow-lg border-none'>
 			<CardHeader>
 				<CardTitle>Статистика занятий</CardTitle>
 				<CardDescription>
@@ -42,29 +48,35 @@ export function PerformanceTeacherChart({ data }: { data: ChartDataType[] }) {
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<ChartContainer config={chartConfig}>
-					<BarChart data={data} margin={{ top: 20 }}>
-						<CartesianGrid vertical={false} />
-						<XAxis
-							dataKey='month'
-							tickLine={false}
-							tickMargin={10}
-							axisLine={false}
-							tickFormatter={value => value.slice(0, 3)}
-						/>
-						<ChartTooltip
-							cursor={false}
-							content={<ChartTooltipContent hideLabel />}
-						/>
-						<Bar dataKey='count' fill='var(--color-count)' radius={8}>
-							<LabelList
-								position='top'
-								offset={12}
-								className='fill-foreground'
-								fontSize={12}
+				<ChartContainer config={chartConfig} className='max-h-[400px]'>
+					{loading ? (
+						<div className='flex h-full items-center justify-center text-muted-foreground'>
+							Загрузка данных...
+						</div>
+					) : (
+						<BarChart data={data} margin={{ top: 20 }}>
+							<CartesianGrid vertical={false} />
+							<XAxis
+								dataKey='month'
+								tickLine={false}
+								tickMargin={10}
+								axisLine={false}
+								tickFormatter={value => value.slice(0, 3)}
 							/>
-						</Bar>
-					</BarChart>
+							<ChartTooltip
+								cursor={false}
+								content={<ChartTooltipContent hideLabel />}
+							/>
+							<Bar dataKey='count' fill='var(--color-count)' radius={8}>
+								<LabelList
+									position='top'
+									offset={12}
+									className='fill-foreground'
+									fontSize={12}
+								/>
+							</Bar>
+						</BarChart>
+					)}
 				</ChartContainer>
 			</CardContent>
 			<CardFooter className='flex-col items-start gap-2 text-sm'>

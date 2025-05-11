@@ -11,7 +11,7 @@ const EventCalendarContainer = async ({
 }) => {
 	const { date } = searchParams
 	return (
-		<div className='bg-white p-4 rounded-md'>
+		<div className='bg-white p-4 rounded-xl shadow-lg'>
 			<EventCalendar />
 			<div className='flex items-center justify-between'>
 				<h1 className='text-xl font-semibold my-4'>События</h1>

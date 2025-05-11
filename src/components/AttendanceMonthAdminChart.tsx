@@ -27,11 +27,11 @@ const chartConfig = {
 	},
 	present: {
 		label: 'Присутствует',
-		color: '#2563EB',
+		color: '#0A3470',
 	},
 	absent: {
 		label: 'Отсутствует',
-		color: '#60A8FB',
+		color: '#3780D2',
 	},
 } satisfies ChartConfig
 
@@ -68,7 +68,7 @@ const AttendanceMonthAdminChart = ({
 	}
 
 	return (
-		<Card className='flex flex-col mb-4'>
+		<Card className='shadow-lg border-none'>
 			<CardHeader className='items-center pb-0'>
 				<CardTitle>Посещаемость за месяц</CardTitle>
 				<CardDescription className='flex gap-2'>
@@ -81,7 +81,7 @@ const AttendanceMonthAdminChart = ({
 			<CardContent className='flex-1 pb-4'>
 				<ChartContainer
 					config={chartConfig}
-					className='mx-auto aspect-square max-h-[250px]'
+					className='mx-auto aspect-square min-h-[250px] max-h-[250px]'
 				>
 					<PieChart>
 						<ChartTooltip

@@ -34,9 +34,9 @@ const PerformanceTeacherChartContainer = ({
 		fetchData()
 	}, [teacherId])
 
-	if (loading) return <div>Загрузка данных...</div>
+	// if (loading) return <div>Загрузка данных...</div>
 
-	return <PerformanceTeacherChart data={chartData} />
+	return <PerformanceTeacherChart data={chartData} loading={loading}/>
 }
 
 export default PerformanceTeacherChartContainer

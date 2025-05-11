@@ -14,11 +14,11 @@ import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 const chartConfig = {
 	present: {
 		label: 'Присутствует',
-		color: '#3E5DDB',
+		color: '#0A3470',
 	},
 	absent: {
 		label: 'Отсутствует',
-		color: '#60A8FB',
+		color: '#3780D2',
 	},
 } satisfies ChartConfig
 
@@ -28,12 +28,12 @@ const AttendanceChart = ({
 	data: { name: string; present: number; absent: number }[]
 }) => {
 	return (
-		<Card>
-			<CardHeader>
+		<Card className='shadow-lg border-none'>
+			<CardHeader className='mb-2'>
 				<CardTitle>Посещаемость за текущую неделю</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<ChartContainer config={chartConfig}>
+				<ChartContainer config={chartConfig} className='min-h-[250px]'>
 					<BarChart accessibilityLayer data={data}>
 						<CartesianGrid vertical={false} />
 						<XAxis
@@ -42,6 +42,7 @@ const AttendanceChart = ({
 							tickMargin={7}
 							axisLine={false}
 							tickFormatter={value => value.slice(0, 3)}
+							className='mb-22'
 						/>
 						<ChartTooltip
 							cursor={false}

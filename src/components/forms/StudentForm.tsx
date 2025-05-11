@@ -123,8 +123,8 @@ const StudentForm = ({
 					<Image
 						src={`${previewImage}?ts=${Date.now()}`}
 						alt='Preview'
-						width={100}
-						height={100}
+						width={95}
+						height={95}
 						key={previewImage}
 						onError={() => setPreviewImage('/no-profile-picture.svg')}
 					/>
@@ -258,7 +258,7 @@ const StudentForm = ({
 			{state.error && (
 				<span className='text-red-500'>Что-то пошло не так!</span>
 			)}
-			<button type='submit' className='bg-blue-400 text-white p-2 rounded-md'>
+			<button type='submit' className='bg-[#3780D2] text-white p-2 rounded-md'>
 				{type === 'create' ? 'Создать' : 'Обновить'}
 			</button>
 		</form>

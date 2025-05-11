@@ -37,12 +37,12 @@ const CoachListPage = async ({
 		{
 			header: 'Телефон',
 			accessor: 'phone',
-			className: 'hidden md:table-cell',
+			className: 'hidden xl:table-cell',
 		},
 		{
 			header: 'Адрес',
 			accessor: 'address',
-			className: 'hidden lg:table-cell',
+			className: 'hidden 2xl:table-cell',
 		},
 		...(role === 'admin'
 			? [
@@ -57,7 +57,7 @@ const CoachListPage = async ({
 	const renderRow = (item: CoachList) => (
 		<tr
 			key={item.id}
-			className='border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-[#ecf8ff]'
+			className='border-b border-gray-200 even:bg-[#F9F9FA] text-sm hover:bg-[#F3F3F3]'
 		>
 			<td className='flex items-center gap-4 p-4'>
 				<Image
@@ -76,12 +76,12 @@ const CoachListPage = async ({
 			<td className='hidden md:table-cell'>
 				{item.disciplines.map(disciplines => disciplines.name).join(', ')}
 			</td>
-			<td className='hidden md:table-cell'>{item.phone}</td>
-			<td className='hidden lg:table-cell'>{item.address}</td>
+			<td className='hidden xl:table-cell'>{item.phone}</td>
+			<td className='hidden 2xl:table-cell'>{item.address}</td>
 			<td>
 				<div className='flex items-center gap-2'>
 					<Link href={`/list/coaches/${item.id}`}>
-						<button className='w-7 h-7 flex items-center justify-center rounded-full bg-[#B3E2FD]'>
+						<button className='w-7 h-7 flex items-center justify-center rounded-full bg-[#3780D2]'>
 							<Image src='/eye.svg' alt='' width={16} height={16} />
 						</button>
 					</Link>
@@ -142,22 +142,6 @@ const CoachListPage = async ({
 				<div className='flex flex-col md:flex-row items-center gap-4 w-full md:w-auto'>
 					<TableSearch />
 					<div className='flex items-center gap-4 self-end'>
-						<button className='w-8 h-8 flex items-center justify-center rounded-full bg-[#B3E2FD]'>
-							<Image
-								src='/sliders-horizontal.svg'
-								alt=''
-								width={14}
-								height={14}
-							/>
-						</button>
-						<button className='w-8 h-8 flex items-center justify-center rounded-full bg-[#B3E2FD]'>
-							<Image
-								src='/list-filter-plus.svg'
-								alt=''
-								width={16}
-								height={16}
-							/>
-						</button>
 						{role === 'admin' && <FormContainer table='coach' type='create' />}
 					</div>
 				</div>

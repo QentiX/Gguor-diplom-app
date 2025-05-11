@@ -80,11 +80,17 @@ body,
 .react-calendar__tile--active {
 	background-color: #0a3470 !important;
 	color: white !important;
+	border-radius: 8px;
 }
 
 .react-calendar__tile--now {
-	background-color: #b4b4b4 !important;
+	background-color: #cecece !important;
 	color: black !important;
+	border-radius: 8px;
+}
+
+.react-calendar__month-view__days__day {
+	border-radius: 8px !important;
 }
 
 .rbc-btn-group:first-child {
@@ -102,14 +108,15 @@ body,
 
 .rbc-btn-group:last-child button {
 	border: none !important;
-	background-color: #b3e2fd !important;
+	background-color: #F9F9FA !important;
+	color: black !important;
 	margin-left: 2px !important;
 }
 
 .rbc-toolbar button.rbc-active {
-	background-color: #0a3470 !important;
+	background-color: #F3F3F3 !important;
 	box-shadow: none !important;
-	color: white !important;
+	color: black !important;
 }
 
 .rbc-time-view {
@@ -121,7 +128,7 @@ body,
 }
 
 .rbc-header {
-	background-color: #b9c6d7 !important;
+	background-color: #F9F9FA !important;
 }
 
 .rbc-time-content {
@@ -155,7 +162,7 @@ body,
 }
 
 .rbc-today {
-	background-color: #b3e2fd !important;
+	background-color: #F3F3F3 !important;
 }
 
 .rbc-event {

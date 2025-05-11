@@ -22,7 +22,7 @@ const menuItems = [
 				icon: '/users.svg',
 				label: 'Студенты',
 				href: '/list/students',
-				visible: ['admin', 'teacher', 'coach'],
+				visible: ['admin', 'teacher', 'coach', 'student'],
 			},
 			{
 				icon: '/users-round.svg',
@@ -97,9 +97,9 @@ const menuItems = [
 		items: [
 			{
 				icon: '/circle-user-round.svg',
-				label: 'Профиль',
+				label: 'Новости',
 				href: '/profile',
-				visible: ['admin', 'teacher', 'student', 'coach'],
+				visible: ['admin'],
 			},
 		],
 	},
@@ -110,10 +110,10 @@ const Menu = async () => {
 	const role = user?.publicMetadata.role as string
 
 	return (
-		<div className='mt-4 text-sm'>
+		<div className='mt-4 text-sm ml-2 pr-2'>
 			{menuItems.map(i => (
 				<div className='flex flex-col gap-2' key={i.title}>
-					<span className='hidden lg:block text-[#7E7F80] font-medium my-3'>
+					<span className='hidden lg:block text-[#7E7F80] font-medium my-2'>
 						{i.title}
 					</span>
 					{i.items.map(item => {
@@ -125,9 +125,8 @@ const Menu = async () => {
 											? item.href + role
 											: item.href
 									}
-									// href={item.href}
 									key={item.label}
-									className='flex items-center justify-center lg:justify-start gap-4 py-2 md:px-2 hover:bg-[#B3E2FD]'
+									className='flex items-center justify-center lg:justify-start gap-4 py-2 md:px-2 hover:bg-[#F3F3F3] font-medium hover:text-[#000] text-[#454545] hover:rounded-lg'
 								>
 									<Image src={item.icon} alt='' width={20} height={20} />
 									<span className='hidden lg:block'>{item.label}</span>

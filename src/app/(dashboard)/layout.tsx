@@ -11,9 +11,9 @@ export default function DashboardLayout({
 	return (
 		<div className='h-screen flex'>
 			{/* LEFT */}
-			<div className='w-[17%] md:w-[8%] lg:w-[16%] xl:w-[17%]'>
+			<div className='w-[17%] md:w-[8%] lg:w-[16%] xl:w-[17%] rounded-xl'>
 				<Link href='/' className='flex items-center justify-center'>
-					<Image src='/blueGguorLogo.svg' alt='logo' width={85} height={85} />
+					<Image src='/blueGguorLogo.svg' alt='logo' width={83} height={83} />
 					<div className='font-medium leading-3 pl-2 border-l-1 border-black hidden xl:block'>
 						<p className='text-xxxs leading-3'>филиал учреждения образования</p>
 						<p className='text-xxs'>ГОМЕЛЬСКОЕ</p>

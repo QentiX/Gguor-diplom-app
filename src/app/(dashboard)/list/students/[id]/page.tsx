@@ -35,13 +35,13 @@ const SingleStudentPage = async ({
 		return notFound()
 	}
 	return (
-		<div className='flex-1 p-4 flex flex-col gap-4 xl:flex-row'>
+		<div className='flex-1 p-4 flex flex-col gap-4 2xl:flex-row'>
 			{/* LEFT */}
-			<div className='w-full xl:w-2/3'>
+			<div className='w-full 2xl:w-2/3'>
 				{/* TOP */}
-				<div className='flex flex-col lg:flex-row gap-4'>
+				<div className='flex flex-col lg:flex-row gap-4 mb-7'>
 					{/* USER INFO CARD */}
-					<div className='bg-[#B3E2FD] py-6 px-4 rounded-md flex-1 flex gap-4'>
+					<div className='bg-[#F3F3F3] py-6 px-4 rounded-xl flex-1 flex gap-4 shadow-lg'>
 						<div className='w-1/3'>
 							<Image
 								src={student.img || '/no-profile-picture.svg'}
@@ -86,7 +86,7 @@ const SingleStudentPage = async ({
 					{/* SMALL CARDS */}
 					<div className='flex-1 flex gap-4 justify-between flex-wrap'>
 						{/* CARD */}
-						<div className='bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]'>
+						<div className='bg-white p-4 rounded-xl shadow-lg flex gap-4 w-full md:w-[48%] xl:w-[48%] 2xl:w-[48%]'>
 							<Image
 								src='/singleAttendance.png'
 								alt=''
@@ -99,7 +99,7 @@ const SingleStudentPage = async ({
               </Suspense>
 						</div>
 						{/* CARD */}
-						<div className='bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]'>
+						<div className='bg-white p-4 rounded-xl shadow-lg flex gap-4 w-full md:w-[48%] xl:w-[48%] 2xl:w-[48%]'>
 							<Image
 								src='/singleBranch.png'
 								alt=''
@@ -115,7 +115,7 @@ const SingleStudentPage = async ({
 							</div>
 						</div>
 						{/* CARD */}
-						<div className='bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]'>
+						<div className='bg-white p-4 rounded-xl shadow-lg flex gap-4 w-full md:w-[48%] xl:w-[48%] 2xl:w-[48%]'>
 							<Image
 								src='/singleLesson.png'
 								alt=''
@@ -131,7 +131,7 @@ const SingleStudentPage = async ({
 							</div>
 						</div>
 						{/* CARD */}
-						<div className='bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]'>
+						<div className='bg-white p-4 rounded-xl shadow-lg flex gap-4 w-full md:w-[48%] xl:w-[48%] 2xl:w-[48%]'>
 							<Image
 								src='/singleClass.png'
 								alt=''
@@ -147,42 +147,42 @@ const SingleStudentPage = async ({
 					</div>
 				</div>
 				{/* BOTTOM */}
-				<div className='mt-4 bg-white rounded-md p-4 h-[830px]'>
+				<div className='mt-4 bg-white rounded-xl shadow-lg p-4 h-[830px]'>
 					<h1 className='text-xl font-semibold'>Расписание</h1>
 					<BigCalendarContainer type='classId' id={student.class.id} />
 				</div>
 			</div>
 			{/* RIGHT */}
-			<div className='w-full xl:w-1/3 flex flex-col gap-4'>
-				<div className='bg-white p-4 rounded-md'>
+			<div className='w-full 2xl:w-1/3 flex flex-col gap-7'>
+				<div className='bg-white p-4 rounded-xl shadow-lg'>
 					<h1 className='text-xl font-semibold'>Тэги</h1>
 					<div className='mt-4 flex gap-4 flex-wrap text-xs font-semibold'>
 						<Link
-							className='p-3 rounded-md bg-[#B3E2FD]'
+							className='p-3 rounded-lg shadow-md bg-[#F9F9FA]'
 							href={`/list/lessons?classId=${student.class.id}`}
 						>
 							Занятия ученика
 						</Link>
 						<Link
-							className='p-3 rounded-md bg-[#B3E2FD]'
+							className='p-3 rounded-lg shadow-md bg-[#F9F9FA]'
 							href={`/list/teachers?classId=${student.class.id}`}
 						>
 							Преподаватели ученика
 						</Link>
 						<Link
-							className='p-3 rounded-md bg-[#B3E2FD]'
+							className='p-3 rounded-lg shadow-md bg-[#F9F9FA]'
 							href={`/list/exams?classId=${student.class.id}`}
 						>
 							Экзамены ученика
 						</Link>
 						<Link
-							className='p-3 rounded-md bg-[#B3E2FD]'
+							className='p-3 rounded-lg shadow-md bg-[#F9F9FA]'
 							href={`/list/assignments?classId=${student.class.id}`}
 						>
 							Задания ученика
 						</Link>
 						<Link
-							className='p-3 rounded-md bg-[#B3E2FD]'
+							className='p-3 rounded-lg shadow-md bg-[#F9F9FA]'
 							href={`/list/results?studentId=${student.id}`}
 						>
 							Результаты ученика
