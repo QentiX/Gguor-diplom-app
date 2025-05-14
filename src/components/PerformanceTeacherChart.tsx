@@ -14,7 +14,6 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from '@/components/ui/chart'
-import { TrendingUp } from 'lucide-react'
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts'
 
 type ChartDataType = {
@@ -81,7 +80,7 @@ export function PerformanceTeacherChart({
 			</CardContent>
 			<CardFooter className='flex-col items-start gap-2 text-sm'>
 				<div className='flex gap-2 font-medium leading-none'>
-					Динамика занятий <TrendingUp className='h-4 w-4' />
+					Динамика занятий
 				</div>
 			</CardFooter>
 		</Card>

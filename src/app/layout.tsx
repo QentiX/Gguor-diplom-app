@@ -6,12 +6,13 @@ import { Montserrat } from 'next/font/google'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './globals.css'
+import configSite from '@/configSite/site'
 
 const montserrat = Montserrat({ subsets: ['cyrillic'] })
 
 export const metadata: Metadata = {
-	title: 'Gguor',
-	description: 'Next.js Gguor Management System',
+	title: configSite.title,
+	description: configSite.description,
 }
 
 export default function RootLayout({

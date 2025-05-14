@@ -108,13 +108,13 @@ body,
 
 .rbc-btn-group:last-child button {
 	border: none !important;
-	background-color: #F9F9FA !important;
+	background-color: #f9f9fa !important;
 	color: black !important;
 	margin-left: 2px !important;
 }
 
 .rbc-toolbar button.rbc-active {
-	background-color: #F3F3F3 !important;
+	background-color: #f3f3f3 !important;
 	box-shadow: none !important;
 	color: black !important;
 }
@@ -128,7 +128,7 @@ body,
 }
 
 .rbc-header {
-	background-color: #F9F9FA !important;
+	background-color: #f9f9fa !important;
 }
 
 .rbc-time-content {
@@ -162,7 +162,7 @@ body,
 }
 
 .rbc-today {
-	background-color: #F3F3F3 !important;
+	background-color: #f3f3f3 !important;
 }
 
 .rbc-event {
@@ -233,3 +233,32 @@ body,
 		@apply bg-background text-foreground;
 	}
 }
+
+.data-\[state\=on\]\:text-accent-foreground[data-state='on'] {
+	color: hsl(var(--accent-foreground));
+	font-weight: 700;
+}
+
+.swiper-pagination {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+	/* text-align: left !important; */
+}
+
+.swiper-pagination-bullet {
+  width: 35px !important;
+  height: 3px !important;
+  opacity: 0.5 !important;
+  background: #ACA7A7 !important;
+  /* border-radius: 1.5px !important; */
+}
+
+.swiper-pagination-bullet-active {
+  background: #5189FF !important;
+  opacity: 1 !important;
+  width: 35px !important;
+}
+
+

@@ -63,7 +63,7 @@ export function PerfomanceAdminChart({
 			</CardContent>
 			<CardFooter className='flex-col gap-2 text-sm'>
 				<div className='flex items-center gap-2 font-medium leading-none'>
-					Динамика успеваемости <TrendingUp className='h-4 w-4' />
+					Динамика успеваемости
 				</div>
 				<div className='flex items-center gap-2 leading-none text-muted-foreground'>
 					{new Date().toLocaleDateString('ru', {

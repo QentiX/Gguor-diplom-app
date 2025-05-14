@@ -127,6 +127,7 @@ const StudentForm = ({
 						height={95}
 						key={previewImage}
 						onError={() => setPreviewImage('/no-profile-picture.svg')}
+						className='rounded-xl'
 					/>
 				)}
 			</div>

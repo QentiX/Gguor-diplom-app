@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
+
 const LoginPage = () => {
 	const { isLoaded, isSignedIn, user } = useUser()
 
@@ -25,7 +26,7 @@ const LoginPage = () => {
 			<SignIn.Root>
 				<SignIn.Step
 					name='start'
-					className='bg-white p-10 pt-5 rounded-md shadow-2xl flex flex-col gap-2 w-96'
+					className='bg-white p-10 pt-5 rounded-xl shadow-2xl flex flex-col gap-2 w-96'
 				>
 					<div className='flex justify-center mb-2'>
 						<Image src='/blueGguorLogo.svg' alt='' width={95} height={95} />
@@ -54,7 +55,7 @@ const LoginPage = () => {
 					</Clerk.Field>
 					<SignIn.Action
 						submit
-						className='bg-[#0A3470] text-white my-1 rounded-md text-sm p-[10px]'
+						className='bg-[#0A3470] text-white my-1 rounded-xl text-sm p-[10px]'
 					>
 						Войти
 					</SignIn.Action>
