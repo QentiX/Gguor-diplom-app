@@ -33,13 +33,13 @@ const slides = [
 
 export default function SwiperComponent() {
 	return (
-		<div className='relative h-[calc(100vh-103px)] w-full'>
+		<div className='relative h-[calc(100vh-103px)] w-full mb-[50px]'>
 			<Swiper
 				loop={true}
 				spaceBetween={0}
 				centeredSlides={true}
 				autoplay={{
-					delay: 5000,
+					delay: 4000,
 					disableOnInteraction: false,
 				}}
 				pagination={{
@@ -64,7 +64,7 @@ export default function SwiperComponent() {
 								quality={100}
 								priority
 							/>
-							<div className='absolute inset-0 bg-black/50 flex items-end justify-center pb-16'>
+							<div className='absolute inset-0 bg-black/45 flex items-end justify-center pb-16'>
 								{' '}
 								<MaxWidthWrapper className='relative'>
 									<div className='text-white max-w-2xl px-4 space-y-4'>

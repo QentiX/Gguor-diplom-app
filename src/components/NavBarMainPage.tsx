@@ -10,13 +10,139 @@ import { useState } from 'react'
 
 export default function NavBarMainPage() {
 	const [searchActive, setSearchActive] = useState(false)
+	const [language, setLanguage] = useState('ru')
+
+	const menuItems = [
+		{
+			title: 'Об учреждении',
+			dropdown: [
+				{
+					heading: 'О нас',
+					links: [
+						{ name: 'Руководство', href: '/university/management' },
+						{ name: 'История развития филиала', href: '/university/structure' },
+						{ name: 'Новости', href: '/university/faculties' },
+					],
+				},
+				{
+					heading: 'Услуги',
+					links: [
+						{ name: 'Платные услуги', href: '/university/paid-services' },
+					],
+				},
+				{
+					heading: 'Контакты',
+					links: [
+						{
+							name: 'Контактная информация',
+							href: '/university/paid-services',
+						},
+						{ name: 'Одно окно', href: '/university/paid-services' },
+					],
+				},
+			],
+		},
+		{
+			title: 'Сотрудникам',
+			dropdown: [
+				{
+					heading: 'Спортивное отделение',
+					links: [{ name: 'Отделения', href: '/staff/docs' }],
+				},
+				{
+					heading: 'Преподавательская деятельность',
+					links: [{ name: 'Расписание', href: '/staff/docs' }],
+				},
+				{
+					heading: 'Информация',
+					links: [
+						{ name: 'Контакты', href: '/staff/docs' },
+						{ name: 'Одно окно', href: '/staff/docs' },
+					],
+				},
+			],
+		},
+		{
+			title: 'Обучающимся',
+			dropdown: [
+				{
+					heading: 'Спортивное отделение',
+					links: [
+						{ name: 'Кадровый состав', href: '/students/sports' },
+						{ name: 'Отделения', href: '/students/camp' },
+						{
+							name: 'Учебные программы по видам спорта',
+							href: '/students/food',
+						},
+						{ name: 'Допинг', href: '/students/language' },
+					],
+				},
+				{
+					heading: 'Учебное отделение',
+					links: [
+						{ name: 'Педагогический состав', href: '/students/contacts' },
+						{ name: 'Расписание занятий', href: '/students/public-reception' },
+						{ name: 'Права и обязанности учащихся', href: '/students/press' },
+						{ name: 'Виртуальный читальный зал', href: '/students/press' },
+						{
+							name: 'Интернет-ресурсы системы образования',
+							href: '/students/press',
+						},
+					],
+				},
+			],
+		},
+		{
+			title: 'Воспитательное отделение',
+			dropdown: [
+				{
+					heading: 'Основная информация',
+					links: [
+						{ name: 'Кадровый состав', href: '/admission/campaign' },
+						{
+							name: 'Идеологическая и воспитательная работа',
+							href: '/admission/research',
+						},
+						{
+							name: 'Школа активного гражданина (ШАГ)',
+							href: '/admission/promotion',
+						},
+						{ name: 'Профориентация', href: '/admission/phonebook' },
+						{ name: 'Родителям', href: '/admission/contact' },
+						{ name: 'Телефоны доверия', href: '/admission/one-window' },
+						{ name: 'Правовые знания', href: '/admission/feedback' },
+					],
+				},
+			],
+		},
+		{
+			title: 'Абитуриентам',
+			dropdown: [
+				{
+					heading: 'Основная информация',
+					links: [
+						{ name: 'Приемная комиссия', href: '/graduates/community' },
+						{
+							name: 'Информация о ходе приема документов',
+							href: '/graduates/careers',
+						},
+						{
+							name: 'Критерии отбора на зачисление',
+							href: '/graduates/community',
+						},
+						{ name: 'Спортивные отделения', href: '/graduates/careers' },
+					],
+				},
+			],
+		},
+	]
 
 	return (
-		<header className='flex justify-between items-center pt-2 px-4 bg-[#0A3470] z-50 relative w-full'>
+		<header className='flex justify-between items-center pt-2 px-4 md:px-4 lg:px-4 bg-[#0A3470] z-50 relative w-full'>
 			<div className='flex-shrink-0'>
 				<Link href='/' className='flex items-center pb-2 gap-2'>
 					<Image src='/whiteGguorLogo.svg' alt='logo' width={68} height={68} />
-					<div className='font-medium leading-3 pl-2 border-l border-white hidden xl:block text-white'>
+					<div className='font-medium leading-3 pl-2 border-l border-white hidden md:block text-white'>
 						<p className='text-xxxs leading-3'>филиал учреждения образования</p>
 						<p className='text-xxs'>ГОМЕЛЬСКОЕ</p>
 						<p className='text-xxs'>ГОСУДАРСТВЕННОЕ</p>
@@ -27,7 +153,7 @@ export default function NavBarMainPage() {
 				</Link>
 			</div>
 
-			<div className='flex flex-col items-end pl-4'>
+			<div className='flex flex-col items-end pl-4 w-full lg:w-auto'>
 				<div className='flex justify-end items-center text-white text-sm mb-5 gap-4'>
 					<Link
 						href='tel:+375236223611'
@@ -45,7 +171,13 @@ export default function NavBarMainPage() {
 							<Eye size={18} />
 						</Toggle>
 
-						<ToggleGroup type='single' className='gap-1' size='sm'>
+						<ToggleGroup
+							type='single'
+							className='gap-1'
+							size='sm'
+							value={language}
+							onValueChange={val => val && setLanguage(val)}
+						>
 							<ToggleGroupItem
 								value='ru'
 								className='hover:bg-transparent hover:text-[#dad9d9] border-none'
@@ -84,47 +216,58 @@ export default function NavBarMainPage() {
 							transition={{ duration: 0.3, ease: 'easeInOut' }}
 							className='w-full flex justify-end'
 						>
-							<ul className='flex gap-6 font-medium text-[16px] items-center text-white'>
-								<li>
-									<Link
-										href='/'
-										className='hover:text-gray-200 transition-colors'
-									>
-										Об учреждении
-									</Link>
-								</li>
-								<li>
-									<Link
-										href='/'
-										className='hover:text-gray-200 transition-colors'
-									>
-										Сотрудникам
-									</Link>
-								</li>
-								<li>
-									<Link
-										href='/'
-										className='hover:text-gray-200 transition-colors'
-									>
-										Обучающимся
-									</Link>
-								</li>
-								<li>
-									<Link
-										href='/'
-										className='hover:text-gray-200 transition-colors'
-									>
-										Воспитательное отделение
-									</Link>
-								</li>
-								<li>
-									<Link
-										href='/'
-										className='hover:text-gray-200 transition-colors'
-									>
-										Абитуриентам
-									</Link>
-								</li>
+							<ul className='flex gap-6 font-semibold text-[16px] items-center text-white'>
+								{menuItems.map(({ title, dropdown }, idx) => (
+									<li key={idx} className='relative group'>
+										<span className='relative inline-block pb-0 px-2 group-hover:bg-white group-hover:text-[#0A3470]'>
+											{title}
+										</span>
+
+										{dropdown && (
+											<div
+												className={`
+                          absolute top-full -mt-[1px] hidden
+                          group-hover:flex group-focus-within:flex
+                          bg-white text-[#0A3470] shadow-md z-20
+                          px-6 py-4 w-max max-w-screen-xl flex-wrap gap-x-12 gap-y-4
+                          pointer-events-auto
+                          ${
+														idx < 2
+															? 'left-0 origin-top-left'
+															: 'right-0 origin-top-right'
+													}
+                        `}
+												onMouseEnter={e => {
+													const parent = e.currentTarget.closest('.group')
+													parent?.classList.add('hover')
+												}}
+												onMouseLeave={e => {
+													const parent = e.currentTarget.closest('.group')
+													parent?.classList.remove('hover')
+												}}
+											>
+												{dropdown.map((section, sIdx) => (
+													<div key={sIdx} className='min-w-[180px]'>
+														{section.heading && (
+															<p className='font-semibold text-base mb-1 text-black'>
+																{section.heading}
+															</p>
+														)}
+														{section.links.map((link, lIdx) => (
+															<Link
+																key={lIdx}
+																href={link.href}
+																className='block py-1 text-sm text-[#000] hover:underline transition font-medium'
+															>
+																{link.name}
+															</Link>
+														))}
+													</div>
+												))}
+											</div>
+										)}
+									</li>
+								))}
 								<li>
 									<button
 										onClick={() => setSearchActive(true)}

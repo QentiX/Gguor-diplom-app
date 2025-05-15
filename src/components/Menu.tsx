@@ -96,9 +96,15 @@ const menuItems = [
 		title: 'Другое',
 		items: [
 			{
-				icon: '/circle-user-round.svg',
+				icon: '/newspaper.svg',
 				label: 'Новости',
-				href: '/profile',
+				href: '/list/news',
+				visible: ['admin'],
+			},
+			{
+				icon: '/file-video.svg',
+				label: 'Видео галерея',
+				href: '/list/videos',
 				visible: ['admin'],
 			},
 		],
