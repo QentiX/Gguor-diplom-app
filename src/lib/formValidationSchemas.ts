@@ -247,3 +247,12 @@ export const videoSchema = z.object({
 })
 
 export type VideoSchema = z.infer<typeof videoSchema>
+
+export const newsSchema = z.object({
+  id: z.coerce.number().optional(),
+  title: z.string().min(1, { message: 'Требуется указать заголовок!' }),
+  content: z.string().min(1, { message: 'Требуется ввести содержание!' }),
+  thumbnail: z.string().min(1, { message: 'Требуется загрузить обложку!' }),
+})
+
+export type NewsSchema = z.infer<typeof newsSchema>

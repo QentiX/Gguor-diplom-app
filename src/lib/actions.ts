@@ -11,6 +11,7 @@ import {
 	EventSchema,
 	ExamSchema,
 	LessonSchema,
+	NewsSchema,
 	ResultSchema,
 	StudentSchema,
 	SubjectSchema,
@@ -1420,4 +1421,59 @@ export const deleteVideo = async (
 		console.log(err)
 		return { success: false, error: true }
 	}
+}
+
+export const createNews = async (
+  currentState: CurrentState,
+  data: NewsSchema
+) => {
+  try {
+    await prisma.news.create({
+      data: {
+        title: data.title,
+        content: data.content,
+        thumbnail: data.thumbnail,
+      },
+    })
+    return { success: true, error: false }
+  } catch (err) {
+    console.log(err)
+    return { success: false, error: true }
+  }
+}
+
+export const updateNews = async (
+  currentState: CurrentState,
+  data: NewsSchema
+) => {
+  try {
+    await prisma.news.update({
+      where: { id: data.id },
+      data: {
+        title: data.title,
+        content: data.content,
+        thumbnail: data.thumbnail,
+      },
+    })
+    return { success: true, error: false }
+  } catch (err) {
+    console.log(err)
+    return { success: false, error: true }
+  }
+}
+
+export const deleteNews = async (
+  currentState: CurrentState,
+  data: FormData
+) => {
+  const id = data.get('id') as string
+  try {
+    await prisma.news.delete({
+      where: { id: parseInt(id) },
+    })
+    return { success: true, error: false }
+  } catch (err) {
+    console.log(err)
+    return { success: false, error: true }
+  }
 }
