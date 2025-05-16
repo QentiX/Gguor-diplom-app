@@ -27,7 +27,7 @@ const Homepage = () => {
 					/>
 				</section>
 
-				<section>
+				<section className='mx-4'>
 					<DisciplinesComponentContainer />
 				</section>
 

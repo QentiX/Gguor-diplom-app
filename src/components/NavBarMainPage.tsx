@@ -7,6 +7,7 @@ import { Eye, Search, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import AuthMainPageButton from './AurhMainPageButton'
 
 export default function NavBarMainPage() {
 	const [searchActive, setSearchActive] = useState(false)
@@ -198,11 +199,7 @@ export default function NavBarMainPage() {
 							</ToggleGroupItem>
 						</ToggleGroup>
 
-						<div>
-							<Link href='/sign-in'>
-								<Image alt='user icon' src='/user.svg' width={20} height={20} />
-							</Link>
-						</div>
+						<AuthMainPageButton />
 					</div>
 				</div>
 
