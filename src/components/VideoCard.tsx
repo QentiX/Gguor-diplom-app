@@ -8,7 +8,7 @@ import { useRef, useState } from 'react'
 interface VideoCardProps {
 	thumbnail: string
 	title: string
-	url: string // может быть YouTube watch, live или embed
+	url: string
 }
 
 export default function VideoCard({ thumbnail, title, url }: VideoCardProps) {

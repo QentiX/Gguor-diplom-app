@@ -236,3 +236,14 @@ export const attendanceSchema = z.object({
 })
 
 export type AttendanceSchema = z.infer<typeof attendanceSchema>
+
+export const videoSchema = z.object({
+	id: z.coerce.number().optional(),
+	thumbnail: z.string().min(1, { message: 'Требуется прикрепить обложку!' }),
+	title: z.string().min(1, { message: 'Требуется указать название!' }),
+	videoUrl: z
+		.string()
+		.min(1, { message: 'Требуется указать ссылку на видео!' }),
+})
+
+export type VideoSchema = z.infer<typeof videoSchema>

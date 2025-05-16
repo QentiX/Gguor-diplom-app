@@ -17,6 +17,7 @@ export type FormContainerProps = {
 		| 'attendance'
 		| 'event'
 		| 'announcement'
+		| 'video'
 	type: 'create' | 'update' | 'delete'
 	data?: any
 	id?: number | string

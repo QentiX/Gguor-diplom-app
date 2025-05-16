@@ -14,6 +14,7 @@ import {
 	deleteStudent,
 	deleteSubject,
 	deleteTeacher,
+	deleteVideo,
 } from '@/lib/actions'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
@@ -37,6 +38,7 @@ const deleteActionMap = {
 	attendance: deleteAttendance,
 	event: deleteEvent,
 	announcement: deleteAnnouncement,
+	video: deleteVideo,
 }
 
 // USE LAZY LOADING
@@ -81,6 +83,9 @@ const LessonForm = dynamic(() => import('./forms/LessonForm'), {
 	loading: () => <h1>Loading...</h1>,
 })
 const AttendanceForm = dynamic(() => import('./forms/AttendanceForm'), {
+	loading: () => <h1>Loading...</h1>,
+})
+const VideosLibraryForm = dynamic(() => import('./forms/VideosLibraryForm'), {
 	loading: () => <h1>Loading...</h1>,
 })
 
@@ -190,6 +195,14 @@ const forms: {
 	),
 	attendance: (setOpen, type, data, relatedData) => (
 		<AttendanceForm
+			type={type}
+			data={data}
+			setOpen={setOpen}
+			relatedData={relatedData}
+		/>
+	),
+	video: (setOpen, type, data, relatedData) => (
+		<VideosLibraryForm
 			type={type}
 			data={data}
 			setOpen={setOpen}

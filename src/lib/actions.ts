@@ -15,6 +15,7 @@ import {
 	StudentSchema,
 	SubjectSchema,
 	TeacherSchema,
+	VideoSchema,
 } from './formValidationSchemas'
 import prisma from './prisma'
 
@@ -1343,6 +1344,71 @@ export const deleteAttendance = async (
 
 	try {
 		await prisma.attendance.delete({
+			where: {
+				id: parseInt(id),
+			},
+		})
+
+		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const createVideo = async (
+	currentState: CurrentState,
+	data: VideoSchema
+) => {
+	try {
+		await prisma.videosLibrary.create({
+			data: {
+				title: data.title,
+				thumbnail: data.thumbnail,
+				videoUrl: data.videoUrl,
+			},
+		})
+
+		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const updateVideo = async (
+	currentState: CurrentState,
+	data: VideoSchema
+) => {
+	try {
+		await prisma.videosLibrary.update({
+			where: {
+				id: data.id,
+			},
+			data: {
+				title: data.title,
+				thumbnail: data.thumbnail,
+				videoUrl: data.videoUrl,
+			},
+		})
+
+		// revalidatePath("/list/subjects");
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const deleteVideo = async (
+	currentState: CurrentState,
+	data: FormData
+) => {
+	const id = data.get('id') as string
+	try {
+		await prisma.videosLibrary.delete({
 			where: {
 				id: parseInt(id),
 			},

@@ -202,6 +202,15 @@ model Attendance {
   lesson    Lesson  @relation(fields: [lessonId], references: [id])
 }
 
+model VideosLibrary {
+  id      Int      @id @default(autoincrement())
+  title     String
+  thumbnail String
+  videoUrl  String
+
+  createdAt   DateTime     @default(now())
+}
+
 enum UserSex {
   MALE
   FEMALE
