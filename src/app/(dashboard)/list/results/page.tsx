@@ -14,8 +14,10 @@ type ResultList = {
 	studentSurname: string
 	teacherName: string
 	teacherSurname: string
+	teacherPatronymic: string
 	coachName: string
 	coachSurname: string
+	coachPatronymic: string
 	score: number
 	className: string
 	startTime: Date
@@ -79,8 +81,16 @@ const ResultListPage = async ({
 			<td className='hidden md:table-cell'>{item.score}</td>
 			<td className='hidden 2xl:table-cell'>
 				{item.teacherName && item.teacherSurname
-					? item.teacherName + ' ' + item.teacherSurname
-					: item.coachName + ' ' + item.coachSurname}
+					? item.teacherName +
+					  ' ' +
+					  item.teacherSurname +
+					  ' ' +
+					  item.teacherPatronymic
+					: item.coachName +
+					  ' ' +
+					  item.coachSurname +
+					  ' ' +
+					  item.coachPatronymic}
 			</td>
 			<td className='hidden xl:table-cell'>{item.className}</td>
 			<td className='hidden lg:table-cell'>
@@ -164,8 +174,12 @@ const ResultListPage = async ({
 						lesson: {
 							select: {
 								class: { select: { name: true } },
-								teacher: { select: { name: true, surname: true } },
-								coach: { select: { name: true, surname: true } },
+								teacher: {
+									select: { name: true, surname: true, patronymic: true },
+								},
+								coach: {
+									select: { name: true, surname: true, patronymic: true },
+								},
 							},
 						},
 					},
@@ -175,8 +189,12 @@ const ResultListPage = async ({
 						lesson: {
 							select: {
 								class: { select: { name: true } },
-								teacher: { select: { name: true, surname: true } },
-								coach: { select: { name: true, surname: true } },
+								teacher: {
+									select: { name: true, surname: true, patronymic: true },
+								},
+								coach: {
+									select: { name: true, surname: true, patronymic: true },
+								},
 							},
 						},
 					},
@@ -202,8 +220,10 @@ const ResultListPage = async ({
 			studentSurname: item.student.surname,
 			teacherName: assessment.lesson.teacher?.name,
 			teacherSurname: assessment.lesson.teacher?.surname,
+			teacherPatronymic: assessment.lesson.teacher?.patronymic,
 			coachName: assessment.lesson.coach?.name,
 			coachSurname: assessment.lesson.coach?.surname,
+			coachPatronymic: assessment.lesson.coach?.patronymic,
 			score: item.score,
 			className: assessment.lesson.class.name,
 			startTime: isExam ? assessment.startTime : assessment.startDate,

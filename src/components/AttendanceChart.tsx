@@ -9,7 +9,7 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from '@/components/ui/chart'
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 
 const chartConfig = {
 	present: {
@@ -27,6 +27,10 @@ const AttendanceChart = ({
 }: {
 	data: { name: string; present: number; absent: number }[]
 }) => {
+	const maxValue = Math.max(
+		...data.map(item => Math.max(item.present, item.absent))
+	)
+
 	return (
 		<Card className='shadow-lg border-none'>
 			<CardHeader className='mb-2'>
@@ -38,11 +42,20 @@ const AttendanceChart = ({
 						<CartesianGrid vertical={false} />
 						<XAxis
 							dataKey='name'
-							tickLine={false}
+							tickLine={true}
 							tickMargin={7}
-							axisLine={false}
+							axisLine={true}
 							tickFormatter={value => value.slice(0, 3)}
 							className='mb-22'
+						/>
+						<YAxis
+							axisLine={true}
+							tickLine={true}
+							tickCount={6}
+							domain={[0, maxValue + 1]}
+							allowDecimals={false}
+							tickMargin={10}
+							width={30}
 						/>
 						<ChartTooltip
 							cursor={false}

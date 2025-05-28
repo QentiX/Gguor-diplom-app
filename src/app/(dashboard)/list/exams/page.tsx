@@ -77,8 +77,16 @@ const ExamListPage = async ({
 			<td>{item.lesson.class.name}</td>
 			<td className='hidden md:table-cell'>
 				{item.lesson.teacher
-					? item.lesson.teacher.name + ' ' + item.lesson.teacher.surname
-					: item.lesson.coach.name + ' ' + item.lesson.coach.surname}
+					? item.lesson.teacher.surname +
+					  ' ' +
+					  item.lesson.teacher.name +
+					  ' ' +
+					  item.lesson.teacher.patronymic
+					: item.lesson.coach.surname +
+					  ' ' +
+					  item.lesson.coach.name +
+					  ' ' +
+					  item.lesson.coach.patronymic}
 			</td>
 			<td className='hidden md:table-cell'>
 				{new Intl.DateTimeFormat('ru-Ru').format(item.startTime)}

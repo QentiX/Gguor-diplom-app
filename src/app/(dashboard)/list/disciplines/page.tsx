@@ -40,7 +40,11 @@ const SubjectListPage = async ({
 		>
 			<td className='flex items-center gap-4 p-4'>{item.name}</td>
 			<td className='hidden md:table-cell'>
-				{item.coaches.map(coach => coach.name).join(',')}
+				{item.coaches
+					.map(
+						coach => coach.surname + ' ' + coach.name + ' ' + coach.patronymic
+					)
+					.join(',')}
 			</td>
 			<td>
 				<div className='flex items-center gap-2'>

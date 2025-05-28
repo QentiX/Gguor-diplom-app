@@ -53,7 +53,11 @@ const AttendanceListPage = async ({
 			className='border-b border-gray-200 even:bg-[#F9F9FA] text-sm hover:bg-[#F3F3F3]'
 		>
 			<td className='flex items-center gap-4 p-4'>
-				{item.student.name + ' ' + item.student.surname}
+				{item.student.surname +
+					' ' +
+					item.student.name +
+					' ' +
+					item.student.patronymic}
 			</td>
 			<td className='hidden md:table-cell'>{item.lesson.name}</td>
 			<td className='hidden lg:table-cell'>
@@ -129,7 +133,7 @@ const AttendanceListPage = async ({
 		prisma.attendance.findMany({
 			where: query,
 			include: {
-				student: { select: { name: true, surname: true } },
+				student: { select: { name: true, surname: true, patronymic: true } },
 				lesson: { select: { name: true, startTime: true } },
 			},
 			take: ITEM_PER_PAGE,

@@ -54,7 +54,6 @@ const AttendanceMonthAdminChartContainer = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			// Загрузка данных для графика
 			const res = await fetch('/api/attendanceList', {
 				method: 'POST',
 				headers: {
@@ -65,7 +64,6 @@ const AttendanceMonthAdminChartContainer = () => {
 			const data = await res.json()
 			setChartData(data.chartData)
 
-			// Загрузка данных для экспорта
 			const resExport = await fetch('/api/attendanceDetails', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },

@@ -4,6 +4,7 @@ import ExportStudentReportButton from '@/components/ExportAllInfoStudentWord'
 import FormContainer from '@/components/FormContainer'
 import PerfomanceAdminChartContainer from '@/components/PerfomanceAdminChartContainer'
 import StudentAttendanceCard from '@/components/StudentAttendanceCard'
+import { extractGradeLevel } from '@/lib/extractGradeLevel'
 import prisma from '@/lib/prisma'
 import { auth } from '@clerk/nextjs/server'
 import { Class, Student } from '@prisma/client'
@@ -122,7 +123,9 @@ const SingleStudentPage = async ({
 								className='w-6 h-6'
 							/>
 							<div className=''>
-								<h1 className='text-xl font-semibold'>{student.class.name}</h1>
+								<h1 className='text-xl font-semibold'>
+									{extractGradeLevel(student.class.name)}
+								</h1>
 								<span className='text-sm text-gray-400'>Класс/Курс</span>
 							</div>
 						</div>
