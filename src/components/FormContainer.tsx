@@ -19,6 +19,7 @@ export type FormContainerProps = {
 		| 'announcement'
 		| 'video'
 		| 'news'
+		| 'personalTrainings'
 	type: 'create' | 'update' | 'delete'
 	data?: any
 	id?: number | string
@@ -182,6 +183,25 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
 				}
 				break
 			default:
+				break
+			case 'personalTrainings':
+				const trainingStudents = await prisma.student.findMany({
+					select: { id: true, name: true, surname: true },
+				})
+
+				const trainingCoaches = await prisma.coach.findMany({
+					select: { id: true, name: true, surname: true },
+				})
+
+				// const trainingDisciplines = await prisma.disciplines.findMany({
+				// 	select: { id: true, name: true },
+				// })
+
+				relatedData = {
+					students: trainingStudents,
+					coaches: trainingCoaches,
+					// disciplines: trainingDisciplines,
+				}
 				break
 		}
 	}

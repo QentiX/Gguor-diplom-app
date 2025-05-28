@@ -259,3 +259,20 @@ export const newsSchema = z.object({
 })
 
 export type NewsSchema = z.infer<typeof newsSchema>
+
+export const personalTrainingSchema = z.object({
+  id: z.coerce.number().optional(),
+  title: z.string().min(1, { message: 'Название обязательно!' }),
+  description: z.string().optional(),
+  recommendations: z.string().optional(),
+  studentId: z.string({ message: 'Требуется указать студента!' }),
+  coachId: z.string({ message: 'Требуется указать тренера!' }),
+  // disciplineId: z.coerce.number().optional(),
+  files: z.array(z.object({
+    url: z.string(),
+    originalName: z.string(),
+    fileType: z.string(),
+  })).optional(),
+})
+
+export type PersonalTrainingSchema = z.infer<typeof personalTrainingSchema>

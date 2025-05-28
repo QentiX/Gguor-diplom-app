@@ -11,6 +11,7 @@ import {
 	deleteExam,
 	deleteLesson,
 	deleteNews,
+	deletePersonalTraining,
 	deleteResult,
 	deleteStudent,
 	deleteSubject,
@@ -41,7 +42,9 @@ const deleteActionMap = {
 	announcement: deleteAnnouncement,
 	video: deleteVideo,
 	news: deleteNews,
+	personalTrainings: deletePersonalTraining,
 }
+
 
 // USE LAZY LOADING
 
@@ -91,8 +94,14 @@ const VideosLibraryForm = dynamic(() => import('./forms/VideosLibraryForm'), {
 	loading: () => <h1>Loading...</h1>,
 })
 const NewsForm = dynamic(() => import('./forms/NewsForm'), {
-  loading: () => <h1>Loading...</h1>,
+	loading: () => <h1>Loading...</h1>,
 })
+const PersonalTrainingForm = dynamic(
+	() => import('./forms/PersonalTrainingForm'),
+	{
+		loading: () => <h1>Loading...</h1>,
+	}
+)
 
 const forms: {
 	[key: string]: (
@@ -215,8 +224,16 @@ const forms: {
 		/>
 	),
 	news: (setOpen, type, data) => (
-    <NewsForm type={type} data={data} setOpen={setOpen} />
-  ),
+		<NewsForm type={type} data={data} setOpen={setOpen} />
+	),
+	personalTrainings: (setOpen, type, data, relatedData) => (
+		<PersonalTrainingForm
+			type={type}
+			data={data}
+			setOpen={setOpen}
+			relatedData={relatedData}
+		/>
+	),
 }
 
 const FormModal = ({

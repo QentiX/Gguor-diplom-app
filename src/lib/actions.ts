@@ -12,6 +12,7 @@ import {
 	ExamSchema,
 	LessonSchema,
 	NewsSchema,
+	PersonalTrainingSchema,
 	ResultSchema,
 	StudentSchema,
 	SubjectSchema,
@@ -1430,56 +1431,154 @@ export const deleteVideo = async (
 }
 
 export const createNews = async (
-  currentState: CurrentState,
-  data: NewsSchema
+	currentState: CurrentState,
+	data: NewsSchema
 ) => {
-  try {
-    await prisma.news.create({
-      data: {
-        title: data.title,
-        content: data.content,
-        thumbnail: data.thumbnail,
-      },
-    })
-    return { success: true, error: false }
-  } catch (err) {
-    console.log(err)
-    return { success: false, error: true }
-  }
+	try {
+		await prisma.news.create({
+			data: {
+				title: data.title,
+				content: data.content,
+				thumbnail: data.thumbnail,
+			},
+		})
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
 }
 
 export const updateNews = async (
-  currentState: CurrentState,
-  data: NewsSchema
+	currentState: CurrentState,
+	data: NewsSchema
 ) => {
-  try {
-    await prisma.news.update({
-      where: { id: data.id },
-      data: {
-        title: data.title,
-        content: data.content,
-        thumbnail: data.thumbnail,
-      },
-    })
-    return { success: true, error: false }
-  } catch (err) {
-    console.log(err)
-    return { success: false, error: true }
-  }
+	try {
+		await prisma.news.update({
+			where: { id: data.id },
+			data: {
+				title: data.title,
+				content: data.content,
+				thumbnail: data.thumbnail,
+			},
+		})
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
 }
 
 export const deleteNews = async (
-  currentState: CurrentState,
-  data: FormData
+	currentState: CurrentState,
+	data: FormData
 ) => {
-  const id = data.get('id') as string
-  try {
-    await prisma.news.delete({
-      where: { id: parseInt(id) },
-    })
-    return { success: true, error: false }
-  } catch (err) {
-    console.log(err)
-    return { success: false, error: true }
-  }
+	const id = data.get('id') as string
+	try {
+		await prisma.news.delete({
+			where: { id: parseInt(id) },
+		})
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const createPersonalTraining = async (
+	currentState: CurrentState,
+	data: PersonalTrainingSchema
+) => {
+	try {
+		const newTraining = await prisma.personalTraining.create({
+			data: {
+				title: data.title,
+				description: data.description || null,
+				recommendations: data.recommendations || null,
+				studentId: data.studentId,
+				coachId: data.coachId,
+				// disciplineId: data.disciplineId || null,
+			},
+		})
+
+		if (data.files && data.files.length > 0) {
+			await prisma.trainingFile.createMany({
+				data: data.files.map(file => ({
+					url: file.url,
+					originalName: file.originalName,
+					fileType: file.fileType,
+					trainingId: newTraining.id,
+				})),
+			})
+		}
+
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const updatePersonalTraining = async (
+	currentState: CurrentState,
+	data: PersonalTrainingSchema
+) => {
+	try {
+		if (!data.id) return { success: false, error: true }
+
+		await prisma.personalTraining.update({
+			where: { id: data.id },
+			data: {
+				title: data.title,
+				description: data.description,
+				recommendations: data.recommendations,
+				studentId: data.studentId,
+				coachId: data.coachId,
+				// disciplineId: data.disciplineId,
+			},
+		})
+
+		// Полностью заменяем файлы
+		await prisma.trainingFile.deleteMany({
+			where: { trainingId: data.id },
+		})
+
+		if (data.files && data.files.length > 0) {
+			await prisma.trainingFile.createMany({
+				data: data.files.map(file => ({
+					url: file.url,
+					originalName: file.originalName,
+					fileType: file.fileType,
+					trainingId: data.id!,
+				})),
+			})
+		}
+
+		return { success: true, error: false }
+	} catch (err) {
+		console.log(err)
+		return { success: false, error: true }
+	}
+}
+
+export const deletePersonalTraining = async (
+	currentState: CurrentState,
+	data: FormData
+) => {
+	const id = data.get('id') as string
+	try {
+		const trainingId = parseInt(id)
+		await prisma.trainingFile.deleteMany({
+			where: { trainingId: trainingId },
+		})
+
+		await prisma.personalTraining.delete({
+			where: { id: trainingId },
+		})
+
+		return { success: true, error: false }
+	} catch (err) {
+		console.error('Error deleting training:', err)
+		return { success: false, error: 'Failed to delete training' }
+	}
 }

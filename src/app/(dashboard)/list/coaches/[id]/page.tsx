@@ -58,7 +58,7 @@ const SingleCoachPage = async ({
 						<div className='w-2/3 flex flex-col justify-between gap-4'>
 							<div className='flex items-center gap-4'>
 								<h1 className='text-xl font-semibold'>
-									{coach.name + ' ' + coach.surname}
+									{coach.surname + ' ' + coach.name + ' ' + coach.patronymic}
 								</h1>
 								{role === 'admin' && (
 									<FormContainer table='coach' type='update' data={coach} />
@@ -178,6 +178,12 @@ const SingleCoachPage = async ({
 							href={`/list/assignments?coachId=${coach.id}`}
 						>
 							Задания тренера
+						</Link>
+						<Link
+							className='p-3 rounded-lg shadow-md bg-[#F9F9FA]'
+							href={`/list/personalTrainings?coachId=${coach.id}`}
+						>
+							Индивидуальные задания тренера
 						</Link>
 					</div>
 				</div>

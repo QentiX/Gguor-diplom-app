@@ -54,7 +54,11 @@ const SingleStudentPage = async ({
 						<div className='w-2/3 flex flex-col justify-between gap-4'>
 							<div className='flex items-center gap-4'>
 								<h1 className='text-xl font-semibold'>
-									{student.name + ' ' + student.surname}
+									{student.surname +
+										' ' +
+										student.name +
+										' ' +
+										student.patronymic}
 								</h1>
 								{role === 'admin' && (
 									<div className='flex items-center gap-2'>
@@ -118,9 +122,7 @@ const SingleStudentPage = async ({
 								className='w-6 h-6'
 							/>
 							<div className=''>
-								<h1 className='text-xl font-semibold'>
-									{student.class.name}
-								</h1>
+								<h1 className='text-xl font-semibold'>{student.class.name}</h1>
 								<span className='text-sm text-gray-400'>Класс/Курс</span>
 							</div>
 						</div>
@@ -196,6 +198,12 @@ const SingleStudentPage = async ({
 							href={`/list/results?studentId=${student.id}`}
 						>
 							Результаты ученика
+						</Link>
+						<Link
+							className='p-3 rounded-lg shadow-md bg-[#F9F9FA]'
+							href={`/list/personalTrainings?studentId=${student.id}`}
+						>
+							Индивидуальные тренировки ученика
 						</Link>
 					</div>
 				</div>

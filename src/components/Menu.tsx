@@ -44,7 +44,7 @@ const menuItems = [
 			},
 			{
 				icon: '/presentation.svg',
-				label: 'Классы',
+				label: 'Группы',
 				href: '/list/classes',
 				visible: ['admin', 'teacher'],
 			},
@@ -65,6 +65,12 @@ const menuItems = [
 				label: 'Задания',
 				href: '/list/assignments',
 				visible: ['admin', 'teacher', 'student', 'coach'],
+			},
+			{
+				icon: '/keyboard-music.svg',
+				label: 'Индивидуальные тренировки',
+				href: '/list/personalTrainings',
+				visible: ['admin', 'student', 'coach'],
 			},
 			{
 				icon: '/book-a.svg',

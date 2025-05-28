@@ -33,6 +33,8 @@ model Student {
   attendances Attendance[]
   results     Result[]
   birthday    DateTime
+
+  personalTrainings PersonalTraining[] @relation("StudentTrainings")
 }
 
 model Teacher {
@@ -73,6 +75,8 @@ model Coach {
   disciplines  Disciplines[]
   lessons   Lesson[]
   birthday  DateTime
+
+  personalTrainings PersonalTraining[] @relation("CoachTrainings")
 }
 
 model Grade {
@@ -221,6 +225,31 @@ model News {
   thumbnail String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model PersonalTraining {
+  id              Int              @id @default(autoincrement())
+  title           String
+  description     String?
+  recommendations String?
+  createdAt       DateTime         @default(now())
+
+  studentId String
+  student   Student  @relation("StudentTrainings", fields: [studentId], references: [id])
+
+  coachId   String
+  coach     Coach    @relation("CoachTrainings", fields: [coachId], references: [id])
+
+  files     TrainingFile[]
+}
+
+model TrainingFile {
+  id            Int      @id @default(autoincrement())
+  url           String
+  originalName  String
+  fileType      String
+  trainingId    Int
+  training      PersonalTraining @relation(fields: [trainingId], references: [id], onDelete: Cascade)
 }
 
 enum UserSex {
