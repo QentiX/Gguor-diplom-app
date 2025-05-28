@@ -121,6 +121,13 @@ const TeacherForm = ({
 					error={errors.surname}
 				/>
 				<InputField
+					label='Отчество'
+					name='patronymic'
+					defaultValue={data?.patronymic}
+					register={register}
+					error={errors.patronymic}
+				/>
+				<InputField
 					label='Телефон'
 					name='phone'
 					defaultValue={data?.phone}

@@ -73,19 +73,21 @@ const TeacherListPage = async ({
 					className='md:hidden xl:block w-10 h-10 rounded-full object-cover'
 				/>
 				<div className='flex flex-col'>
-					<h3 className='font-semibold'>{item.name}</h3>
+					<h3 className='font-semibold'>
+						{item.patronymic + ' ' + item.name + ' ' + item.surname}
+					</h3>
 					<p className='text-xs text-gray-500'>{item?.email}</p>
 				</div>
 			</td>
 			<td className='hidden md:table-cell'>{item.id}</td>
-			<td className='hidden md:table-cell'>
+			<td className='hidden md:table-cell w-[210px]'>
 				{item.subjects.map(subject => subject.name).join(', ')}
 			</td>
 			<td className='hidden xl:table-cell'>
 				{item.classes.map(classItem => classItem.name).join(', ')}
 			</td>
 			<td className='hidden 2xl:table-cell'>{item.phone}</td>
-			<td className='hidden 2xl:table-cell'>{item.address}</td>
+			<td className='hidden 2xl:table-cell w-[220px]'>{item.address}</td>
 			<td>
 				<div className='flex items-center gap-2'>
 					<Link href={`/list/teachers/${item.id}`}>

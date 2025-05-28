@@ -119,7 +119,7 @@ const SingleStudentPage = async ({
 							/>
 							<div className=''>
 								<h1 className='text-xl font-semibold'>
-									{student.class.name.charAt(0)}
+									{student.class.name}
 								</h1>
 								<span className='text-sm text-gray-400'>Класс/Курс</span>
 							</div>

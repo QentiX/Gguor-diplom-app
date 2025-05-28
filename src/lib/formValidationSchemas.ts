@@ -53,6 +53,7 @@ export const teacherSchema = z.object({
 		.or(z.literal('')),
 	name: z.string().min(1, { message: 'Требуется указать имя!' }),
 	surname: z.string().min(1, { message: 'Требуется указать фамилию!' }),
+	patronymic: z.string().min(1, { message: 'Требуется указать отчество!' }),
 	email: z
 		.string()
 		.email({ message: 'Неверный адрес электронной почты!' })
@@ -93,6 +94,7 @@ export const coachSchema = z.object({
 		.or(z.literal('')),
 	name: z.string().min(1, { message: 'Требуется указать имя!' }),
 	surname: z.string().min(1, { message: 'Требуется указать фамилию!' }),
+	patronymic: z.string().min(1, { message: 'Требуется указать отчество!' }),
 	email: z
 		.string()
 		.email({ message: 'Неверный адрес электронной почты!' })
@@ -138,6 +140,7 @@ export const studentSchema = z.object({
 		.or(z.literal('')),
 	name: z.string().min(1, { message: 'Требуется указать имя!' }),
 	surname: z.string().min(1, { message: 'Требуется указать фамилию!' }),
+	patronymic: z.string().min(1, { message: 'Требуется указать отчество!' }),
 	email: z
 		.string()
 		.email({ message: 'Неверный адрес электронной почты!' })
