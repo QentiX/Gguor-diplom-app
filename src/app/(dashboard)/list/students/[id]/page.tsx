@@ -70,7 +70,7 @@ const SingleStudentPage = async ({
 										/>
 										<ExportStudentReportButton
 											studentId={student.id}
-											studentName={`${student.name}_${student.surname}`}
+											studentName={`${student.surname}_${student.name}_${student.patronymic}`}
 										/>
 									</div>
 								)}

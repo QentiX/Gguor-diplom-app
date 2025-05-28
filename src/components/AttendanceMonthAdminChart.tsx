@@ -58,7 +58,6 @@ const AttendanceMonthAdminChart = ({
 		const workbook = XLSX.utils.book_new()
 		XLSX.utils.book_append_sheet(workbook, worksheet, 'Посещаемость')
 
-		// Используем переданные значения
 		XLSX.writeFile(
 			workbook,
 			`Посещаемость_${selectedMonth

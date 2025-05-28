@@ -53,7 +53,6 @@ const createResultRow = (result: any) => {
 }
 
 export async function generateWordDocument(student: any) {
-	// Получение данных
 	const subjects =
 		Array.from(
 			new Set(
@@ -86,7 +85,6 @@ export async function generateWordDocument(student: any) {
 		sections: [
 			{
 				children: [
-					// Название учреждения
 					new Paragraph({
 						children: [
 							new TextRun({
@@ -111,11 +109,10 @@ export async function generateWordDocument(student: any) {
 						spacing: { after: 400 },
 					}),
 
-					// Заголовок отчета
 					new Paragraph({
 						children: [
 							new TextRun({
-								text: `Отчет об успеваемости ученика: ${student.name} ${student.surname}`,
+								text: `Аттестационная ведомость ученика: ${student.surname} ${student.name} ${student.patronymic}`,
 								bold: true,
 								size: 28,
 								color: '#000000',
@@ -125,7 +122,6 @@ export async function generateWordDocument(student: any) {
 						spacing: { after: 400 },
 					}),
 
-					// Основная информация
 					new Table({
 						columnWidths: [2000, 3000],
 						rows: [
@@ -136,10 +132,12 @@ export async function generateWordDocument(student: any) {
 							createInfoRow('Класс:', student.class?.name || '-'),
 							createInfoRow('Специализация:', student.position || '-'),
 							createInfoRow(
-								'Классный руководитель:',
-								student.class?.supervisor?.name +
+								'Куратор:',
+								student.class?.supervisor?.surname +
 									' ' +
-									student.class?.supervisor?.surname || '-'
+									student.class?.supervisor?.name +
+									' ' +
+									student.class?.supervisor?.patronymic || '-'
 							),
 							createInfoRow('Предметы:', subjects.join(', ') || 'Нет данных'),
 							createInfoRow(
@@ -151,7 +149,7 @@ export async function generateWordDocument(student: any) {
 
 					// Журнал успеваемости
 					new Paragraph({
-						text: 'Классный журнал',
+						text: 'Ведомость',
 						heading: HeadingLevel.HEADING_2,
 						spacing: { before: 400, after: 200 },
 					}),
