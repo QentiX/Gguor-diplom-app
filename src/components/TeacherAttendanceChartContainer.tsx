@@ -61,7 +61,7 @@ const TeacherAttendanceChartContainer = ({
 		const formattedData = exportData.map((entry: any) => ({
 			Студент: entry.student,
 			Занятие: entry.lesson,
-			Дисциплина: entry.subject,
+			Предмет: entry.subject,
 			'Время начала': new Date(entry.startTime).toLocaleString(),
 			'Время окончания': new Date(entry.endTime).toLocaleString(),
 			Статус: entry.attendance,
