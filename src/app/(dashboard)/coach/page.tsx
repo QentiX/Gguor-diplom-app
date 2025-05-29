@@ -1,6 +1,6 @@
 import Announcements from '@/components/Announcements'
 import BigCalendarContainer from '@/components/BigCalendarContainer'
-import BigCalendar from '@/components/BigCalender'
+import CoachAttendanceChartContainer from '@/components/CoachAttendanceChartContainer'
 import { auth } from '@clerk/nextjs/server'
 
 const CoachPage = async () => {
@@ -11,11 +11,12 @@ const CoachPage = async () => {
 			<div className='w-full xl:w-2/3'>
 				<div className='h-full bg-white p-4 rounded-xl shadow-lg'>
 					<h1 className='text-xl font-semibold'>Расписание</h1>
-					<BigCalendarContainer type='coachId' id={userId!}/>
+					<BigCalendarContainer type='coachId' id={userId!} />
 				</div>
 			</div>
 			{/* RIGHT */}
 			<div className='w-full xl:w-1/3 flex flex-col gap-8'>
+				<CoachAttendanceChartContainer coachId={userId!} />
 				<Announcements />
 			</div>
 		</div>

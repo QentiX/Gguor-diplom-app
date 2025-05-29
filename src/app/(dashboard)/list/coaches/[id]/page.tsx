@@ -21,7 +21,11 @@ const SingleCoachPage = async ({
 
 	const coach:
 		| (Coach & {
-				_count: { disciplines: number; lessons: number }
+				_count: {
+					disciplines: number
+					lessons: number
+					personalTrainings: number
+				}
 		  })
 		| null = await prisma.coach.findUnique({
 		where: { id },
@@ -30,6 +34,7 @@ const SingleCoachPage = async ({
 				select: {
 					disciplines: true,
 					lessons: true,
+					personalTrainings: true,
 				},
 			},
 		},
@@ -144,8 +149,12 @@ const SingleCoachPage = async ({
 								className='w-6 h-6'
 							/>
 							<div className=''>
-								<h1 className='text-xl font-semibold'>-</h1>
-								<span className='text-sm text-gray-400'>-</span>
+								<h1 className='text-xl font-semibold'>
+									{coach._count.personalTrainings}
+								</h1>
+								<span className='text-sm text-gray-400'>
+									Индивидуальных тренировок
+								</span>
 							</div>
 						</div>
 					</div>
